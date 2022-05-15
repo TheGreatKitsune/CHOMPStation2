@@ -1027,6 +1027,14 @@
 	icon_state = "dark"
 	},
 /area/centcom/creed)
+"aDf" = (
+/obj/machinery/cryopod/robot/door/ooclounge{
+	announce_channel = null
+	},
+/turf/unsimulated/floor{
+	icon_state = "steel"
+	},
+/area/centcom/ooclounge)
 "aDx" = (
 /obj/machinery/bodyscanner{
 	dir = 8
@@ -1124,6 +1132,14 @@
 	icon_state = "vault"
 	},
 /area/shuttle/trade)
+"aIs" = (
+/obj/structure/bed/chair/modern_chair{
+	dir = 4
+	},
+/turf/unsimulated/floor{
+	icon_state = "wood"
+	},
+/area/centcom/ooclounge)
 "aJs" = (
 /obj/structure/window/reinforced,
 /obj/machinery/door/blast/shutters{
@@ -1452,6 +1468,14 @@
 	icon_state = "white"
 	},
 /area/centcom/medical)
+"beh" = (
+/obj/structure/bed/chair/modern_chair{
+	dir = 1
+	},
+/turf/unsimulated/floor{
+	icon_state = "wood"
+	},
+/area/centcom/ooclounge)
 "bew" = (
 /turf/unsimulated/wall{
 	desc = "That looks like it doesn't open easily.";
@@ -2410,6 +2434,14 @@
 	icon_state = "wood"
 	},
 /area/ninja_dojo/dojo)
+"chz" = (
+/obj/machinery/computer/cryopod{
+	pixel_x = -32
+	},
+/turf/unsimulated/floor{
+	icon_state = "steel"
+	},
+/area/centcom/ooclounge)
 "cij" = (
 /obj/structure/table/steel_reinforced,
 /obj/item/stack/material/mhydrogen,
@@ -3815,6 +3847,17 @@
 	},
 /turf/unsimulated/beach/sand,
 /area/beach)
+"dWy" = (
+/obj/structure/curtain/black{
+	icon_state = "open";
+	layer = 2;
+	name = "privacy curtain";
+	opacity = 0
+	},
+/turf/unsimulated/floor{
+	icon_state = "steel"
+	},
+/area/centcom/ooclounge)
 "dWK" = (
 /obj/item/stack/medical/ointment,
 /obj/item/stack/medical/ointment,
@@ -5370,6 +5413,19 @@
 /obj/machinery/door/airlock/glass,
 /turf/simulated/shuttle/floor/white,
 /area/centcom/evac)
+"grI" = (
+/obj/machinery/vending/loadout/loadout_misc{
+	prices = null
+	},
+/turf/unsimulated/floor{
+	icon_state = "steel"
+	},
+/area/centcom/ooclounge)
+"gsO" = (
+/turf/unsimulated/floor{
+	icon_state = "steel"
+	},
+/area/centcom/ooclounge)
 "guJ" = (
 /obj/machinery/light{
 	dir = 8
@@ -5535,6 +5591,12 @@
 	icon_state = "white"
 	},
 /area/centcom/medical)
+"gEv" = (
+/obj/machinery/vending/loadout/uniform,
+/turf/unsimulated/floor{
+	icon_state = "steel"
+	},
+/area/centcom/ooclounge)
 "gEP" = (
 /obj/structure/table/bench/padded,
 /turf/unsimulated/floor{
@@ -5924,6 +5986,12 @@
 	},
 /turf/simulated/shuttle/plating,
 /area/shuttle/merchant)
+"hau" = (
+/obj/machinery/vending/deluxe_dinner,
+/turf/unsimulated/floor{
+	icon_state = "lino"
+	},
+/area/centcom/ooclounge)
 "hbs" = (
 /obj/effect/floor_decal/carpet{
 	dir = 4
@@ -6351,6 +6419,14 @@
 	name = "plating"
 	},
 /area/skipjack_station)
+"hxC" = (
+/obj/machinery/vending/loadout/accessory{
+	prices = null
+	},
+/turf/unsimulated/floor{
+	icon_state = "steel"
+	},
+/area/centcom/ooclounge)
 "hyl" = (
 /obj/machinery/atmospherics/pipe/simple/visible{
 	dir = 5
@@ -7503,6 +7579,14 @@
 	},
 /turf/simulated/floor/holofloor/carpet,
 /area/holodeck/source_meetinghall)
+"iRb" = (
+/obj/machinery/vending/loadout/overwear{
+	prices = null
+	},
+/turf/unsimulated/floor{
+	icon_state = "steel"
+	},
+/area/centcom/ooclounge)
 "iRn" = (
 /obj/structure/window/reinforced,
 /obj/structure/grille,
@@ -8341,6 +8425,17 @@
 	icon_state = "vault"
 	},
 /area/centcom/specops)
+"jQz" = (
+/obj/machinery/vending/loadout/loadout_misc{
+	prices = null
+	},
+/obj/machinery/vending/loadout/clothing{
+	prices = null
+	},
+/turf/unsimulated/floor{
+	icon_state = "steel"
+	},
+/area/centcom/ooclounge)
 "jQU" = (
 /obj/effect/floor_decal/corner/red{
 	dir = 9
@@ -9043,6 +9138,14 @@
 	},
 /turf/simulated/shuttle/floor,
 /area/shuttle/escape/centcom)
+"kxY" = (
+/obj/machinery/transhuman/autoresleever{
+	ghost_spawns = 1
+	},
+/turf/unsimulated/floor{
+	icon_state = "white"
+	},
+/area/centcom/ooclounge)
 "kyJ" = (
 /obj/item/weapon/tank/vox,
 /turf/unsimulated/floor{
@@ -11561,6 +11664,14 @@
 "nEz" = (
 /turf/simulated/floor/holofloor/carpet,
 /area/holodeck/source_courtroom)
+"nFa" = (
+/obj/structure/bed/chair/modern_chair{
+	dir = 8
+	},
+/turf/unsimulated/floor{
+	icon_state = "wood"
+	},
+/area/centcom/ooclounge)
 "nFg" = (
 /obj/machinery/embedded_controller/radio/airlock/airlock_controller{
 	dir = 4;
@@ -12205,6 +12316,14 @@
 	},
 /turf/simulated/shuttle/plating,
 /area/shuttle/syndicate)
+"ozR" = (
+/obj/machinery/vending/loadout/costume{
+	prices = null
+	},
+/turf/unsimulated/floor{
+	icon_state = "steel"
+	},
+/area/centcom/ooclounge)
 "oAo" = (
 /obj/structure/window/reinforced/holowindow{
 	dir = 8
@@ -12415,6 +12534,14 @@
 	name = "plating"
 	},
 /area/centcom/main_hall)
+"oUO" = (
+/obj/machinery/vending/loadout/gadget{
+	prices = null
+	},
+/turf/unsimulated/floor{
+	icon_state = "steel"
+	},
+/area/centcom/ooclounge)
 "oVM" = (
 /obj/machinery/computer/arcade/orion_trail,
 /turf/unsimulated/floor{
@@ -13271,6 +13398,12 @@
 /obj/item/weapon/pinpointer/shuttle/heist,
 /turf/simulated/shuttle/floor/darkred,
 /area/shuttle/skipjack)
+"qiR" = (
+/turf/unsimulated/floor{
+	dir = 8;
+	icon_state = "wood"
+	},
+/area/centcom/ooclounge)
 "qiW" = (
 /obj/machinery/door/airlock/external{
 	frequency = 1380;
@@ -13474,6 +13607,11 @@
 	icon_state = "dark"
 	},
 /area/centcom/security)
+"qwz" = (
+/turf/unsimulated/floor{
+	icon_state = "white"
+	},
+/area/centcom/ooclounge)
 "qxG" = (
 /obj/structure/table/woodentable,
 /turf/simulated/floor/carpet,
@@ -14249,6 +14387,12 @@
 	},
 /turf/simulated/floor/holofloor/grass,
 /area/holodeck/source_picnicarea)
+"rFN" = (
+/obj/machinery/vending/deluxe_boozeomat,
+/turf/unsimulated/floor{
+	icon_state = "lino"
+	},
+/area/centcom/ooclounge)
 "rGg" = (
 /obj/effect/floor_decal/corner/white/diagonal,
 /obj/structure/table/marble,
@@ -14446,6 +14590,11 @@
 /obj/structure/holostool,
 /turf/simulated/floor/holofloor/carpet,
 /area/holodeck/source_theatre)
+"rPW" = (
+/turf/unsimulated/floor{
+	icon_state = "lino"
+	},
+/area/centcom/ooclounge)
 "rRo" = (
 /obj/structure/closet/secure_closet/brig,
 /turf/unsimulated/floor{
@@ -14982,6 +15131,13 @@
 /obj/structure/shuttle/engine/propulsion,
 /turf/simulated/shuttle/plating/airless/carry,
 /area/shuttle/escape/centcom)
+"szy" = (
+/obj/effect/wingrille_spawn/reinforced/crescent,
+/turf/unsimulated/floor{
+	icon_state = "plating";
+	name = "plating"
+	},
+/area/centcom/ooclounge)
 "szC" = (
 /obj/structure/closet/crate,
 /obj/random/tech_supply,
@@ -15532,6 +15688,12 @@
 	icon_state = "vault"
 	},
 /area/centcom/main_hall)
+"tkI" = (
+/obj/machinery/vending/dinnerware,
+/turf/unsimulated/floor{
+	icon_state = "lino"
+	},
+/area/centcom/ooclounge)
 "tlX" = (
 /obj/machinery/door/airlock/medical{
 	name = "Morgue";
@@ -15814,6 +15976,14 @@
 	name = "grass"
 	},
 /area/wizard_station)
+"tzP" = (
+/obj/machinery/vending/loadout/clothing{
+	prices = null
+	},
+/turf/unsimulated/floor{
+	icon_state = "steel"
+	},
+/area/centcom/ooclounge)
 "tBo" = (
 /obj/structure/table/reinforced,
 /obj/item/weapon/storage/box,
@@ -16870,6 +17040,9 @@
 	icon_state = "steel"
 	},
 /area/centcom/bar)
+"vbd" = (
+/turf/unsimulated/wall,
+/area/centcom/ooclounge)
 "vco" = (
 /obj/structure/toilet{
 	dir = 4
@@ -17479,6 +17652,12 @@
 	icon_state = "white"
 	},
 /area/centcom/medical)
+"vJW" = (
+/obj/structure/table/darkglass,
+/turf/unsimulated/floor{
+	icon_state = "wood"
+	},
+/area/centcom/ooclounge)
 "vJX" = (
 /turf/unsimulated/floor{
 	dir = 8;
@@ -17628,6 +17807,12 @@
 	},
 /turf/simulated/floor/holofloor/tiled,
 /area/holodeck/source_basketball)
+"vXu" = (
+/obj/structure/bed/chair/modern_chair,
+/turf/unsimulated/floor{
+	icon_state = "wood"
+	},
+/area/centcom/ooclounge)
 "vXY" = (
 /obj/machinery/teleport/station,
 /turf/unsimulated/floor{
@@ -18715,6 +18900,11 @@
 	icon_state = "vault"
 	},
 /area/centcom/specops)
+"xzx" = (
+/turf/unsimulated/floor{
+	icon_state = "wood"
+	},
+/area/centcom/ooclounge)
 "xzB" = (
 /obj/effect/floor_decal/corner/green/full,
 /turf/simulated/floor/holofloor/tiled,
@@ -77174,12 +77364,12 @@ vFi
 vFi
 vFi
 vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
+vbd
+vbd
+vbd
+vbd
+vbd
+vbd
 "}
 (225,1,1) = {"
 aad
@@ -77432,12 +77622,12 @@ vFi
 vFi
 vFi
 vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
+vbd
+gsO
+gsO
+gsO
+gsO
+vbd
 "}
 (226,1,1) = {"
 aad
@@ -77690,12 +77880,12 @@ vFi
 vFi
 vFi
 vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
+vbd
+gsO
+gsO
+gsO
+gsO
+vbd
 "}
 (227,1,1) = {"
 aad
@@ -77948,12 +78138,12 @@ vFi
 vFi
 vFi
 vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
+vbd
+gsO
+gsO
+gsO
+gsO
+vbd
 "}
 (228,1,1) = {"
 aad
@@ -78206,12 +78396,12 @@ vFi
 vFi
 vFi
 vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
+vbd
+gsO
+gsO
+gsO
+gsO
+vbd
 "}
 (229,1,1) = {"
 aad
@@ -78464,12 +78654,12 @@ vFi
 vFi
 vFi
 vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
+vbd
+gsO
+gsO
+gsO
+gsO
+vbd
 "}
 (230,1,1) = {"
 aad
@@ -78722,12 +78912,12 @@ vFi
 vFi
 vFi
 vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
+vbd
+gsO
+gsO
+gsO
+gsO
+vbd
 "}
 (231,1,1) = {"
 aad
@@ -78980,12 +79170,12 @@ vFi
 vFi
 vFi
 vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
+vbd
+gsO
+gsO
+gsO
+gsO
+vbd
 "}
 (232,1,1) = {"
 aad
@@ -79238,12 +79428,12 @@ vFi
 vFi
 vFi
 vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
+vbd
+gsO
+gsO
+gsO
+gsO
+vbd
 "}
 (233,1,1) = {"
 aad
@@ -79496,12 +79686,12 @@ vFi
 vFi
 vFi
 vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
+vbd
+gsO
+gsO
+gsO
+gsO
+vbd
 "}
 (234,1,1) = {"
 aad
@@ -79754,12 +79944,12 @@ vFi
 vFi
 vFi
 vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
+vbd
+gsO
+gsO
+gsO
+gsO
+vbd
 "}
 (235,1,1) = {"
 aad
@@ -80012,12 +80202,12 @@ vFi
 vFi
 vFi
 vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
+vbd
+gsO
+gsO
+gsO
+gsO
+vbd
 "}
 (236,1,1) = {"
 dtV
@@ -80267,15 +80457,15 @@ vFi
 vFi
 vFi
 vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
+vbd
+vbd
+vbd
+vbd
+vbd
+aDf
+aDf
+vbd
+vbd
 "}
 (237,1,1) = {"
 dtV
@@ -80525,15 +80715,15 @@ vFi
 vFi
 vFi
 vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
+vbd
+qiR
+qiR
+dWy
+chz
+gsO
+gsO
+gEv
+vbd
 "}
 (238,1,1) = {"
 dtV
@@ -80783,15 +80973,15 @@ vFi
 vFi
 vFi
 vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
+vbd
+qiR
+qiR
+vbd
+gsO
+gsO
+gsO
+gEv
+vbd
 "}
 (239,1,1) = {"
 dtV
@@ -81041,15 +81231,15 @@ vFi
 vFi
 vFi
 vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
+vbd
+vbd
+vbd
+vbd
+gsO
+gsO
+gsO
+iRb
+vbd
 "}
 (240,1,1) = {"
 dtV
@@ -81299,15 +81489,15 @@ vFi
 vFi
 vFi
 vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
+vbd
+qiR
+qiR
+dWy
+gsO
+gsO
+gsO
+iRb
+vbd
 "}
 (241,1,1) = {"
 dtV
@@ -81557,15 +81747,15 @@ vFi
 vFi
 vFi
 vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
+vbd
+qiR
+qiR
+vbd
+gsO
+gsO
+gsO
+tzP
+vbd
 "}
 (242,1,1) = {"
 dtV
@@ -81815,15 +82005,15 @@ vFi
 vFi
 vFi
 vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
+vbd
+vbd
+vbd
+vbd
+gsO
+gsO
+gsO
+jQz
+vbd
 "}
 (243,1,1) = {"
 dtV
@@ -82073,15 +82263,15 @@ vFi
 vFi
 vFi
 vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
+vbd
+qiR
+qiR
+dWy
+gsO
+gsO
+gsO
+hxC
+vbd
 "}
 (244,1,1) = {"
 dtV
@@ -82331,15 +82521,15 @@ vFi
 vFi
 vFi
 vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
+vbd
+qiR
+qiR
+vbd
+gsO
+gsO
+gsO
+hxC
+vbd
 "}
 (245,1,1) = {"
 dtV
@@ -82589,15 +82779,15 @@ vFi
 vFi
 vFi
 vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
+vbd
+vbd
+vbd
+vbd
+gsO
+gsO
+gsO
+ozR
+vbd
 "}
 (246,1,1) = {"
 dtV
@@ -82847,15 +83037,15 @@ vFi
 vFi
 vFi
 vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
+vbd
+qiR
+qiR
+dWy
+gsO
+gsO
+gsO
+grI
+vbd
 "}
 (247,1,1) = {"
 dtV
@@ -83105,15 +83295,15 @@ vFi
 vFi
 vFi
 vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
+vbd
+qiR
+qiR
+vbd
+gsO
+gsO
+gsO
+oUO
+vbd
 "}
 (248,1,1) = {"
 dtV
@@ -83360,18 +83550,18 @@ vFi
 vFi
 vFi
 vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
+vbd
+vbd
+vbd
+vbd
+vbd
+vbd
+vbd
+vbd
+gsO
+gsO
+vbd
+vbd
 "}
 (249,1,1) = {"
 dtV
@@ -83618,18 +83808,18 @@ vFi
 vFi
 vFi
 vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
+vbd
+qwz
+qwz
+qwz
+szy
+qiR
+xzx
+xzx
+xzx
+xzx
+xzx
+vbd
 "}
 (250,1,1) = {"
 dtV
@@ -83876,18 +84066,18 @@ vFi
 vFi
 vFi
 vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
+vbd
+kxY
+qwz
+qwz
+gsO
+qiR
+xzx
+xzx
+xzx
+xzx
+xzx
+vbd
 "}
 (251,1,1) = {"
 dtV
@@ -84134,18 +84324,18 @@ vFi
 vFi
 vFi
 vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
+vbd
+qwz
+qwz
+qwz
+szy
+qiR
+xzx
+xzx
+xzx
+xzx
+xzx
+vbd
 "}
 (252,1,1) = {"
 dtV
@@ -84392,18 +84582,18 @@ vFi
 vFi
 vFi
 vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
+vbd
+vbd
+vbd
+vbd
+vbd
+qiR
+xzx
+xzx
+aIs
+aIs
+xzx
+vbd
 "}
 (253,1,1) = {"
 dtV
@@ -84650,18 +84840,18 @@ vFi
 vFi
 vFi
 vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
+vbd
+tkI
+rPW
+rPW
+szy
+qiR
+xzx
+vXu
+vJW
+vJW
+beh
+vbd
 "}
 (254,1,1) = {"
 dtV
@@ -84908,18 +85098,18 @@ vFi
 vFi
 vFi
 vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
+vbd
+hau
+rPW
+rPW
+gsO
+qiR
+xzx
+vXu
+vJW
+vJW
+beh
+vbd
 "}
 (255,1,1) = {"
 dtV
@@ -85166,18 +85356,18 @@ vFi
 vFi
 vFi
 vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
+vbd
+rFN
+rPW
+rPW
+szy
+qiR
+xzx
+xzx
+nFa
+nFa
+xzx
+vbd
 "}
 (256,1,1) = {"
 dtV
@@ -85424,16 +85614,16 @@ vFi
 vFi
 vFi
 vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
-vFi
+vbd
+vbd
+vbd
+vbd
+vbd
+vbd
+vbd
+vbd
+vbd
+vbd
+vbd
+vbd
 "}

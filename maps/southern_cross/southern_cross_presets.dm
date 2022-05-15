@@ -136,3 +136,9 @@ var/const/NETWORK_CARRIER  = "Exploration Carrier" //CHOMPedit: Exploration outp
 		num2text(SRV_FREQ) = list(access_janitor, access_hydroponics),
 		num2text(EXP_FREQ) = list(access_explorer)
 	)
+
+/obj/machinery/cryopod/robot/door/ooclounge
+	desc = "An airlock that allows leaving the OOC Lounge."
+
+/obj/machinery/cryopod/robot/door/ooclounge/New()
+	announce = new /obj/item/device/radio/intercom/syndicate(src)

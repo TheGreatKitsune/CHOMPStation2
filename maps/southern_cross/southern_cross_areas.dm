@@ -2000,6 +2000,9 @@ End Chompstation Edit*/
 	icon_state = "storage"
 	ambience = AMBIENCE_RUINS
 
+/area/centcom/ooclounge
+	name = "\improper OOC Lounge"
+
 //Temp Removal TFF 15/2/20
 /*
 // CHOMP-Edit: This is the Belt Mining addition
