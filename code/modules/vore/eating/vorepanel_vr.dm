@@ -137,6 +137,7 @@
 				"stat" = 0,
 				"ref" = "\ref[O]",
 				"outside" = FALSE,
+				"health" = null,
 			)
 			if(show_pictures) //CHOMPedit: disables icon mode
 				if(inside_belly.contents.len <= max_icon_content)
@@ -146,6 +147,7 @@
 			if(isliving(O))
 				var/mob/living/M = O
 				info["stat"] = M.stat
+				info["health"] = list((M.health-config.health_threshold_crit), (M.getMaxHealth()-config.health_threshold_crit))
 				if(M.absorbed)
 					info["absorbed"] = TRUE
 			inside_contents.Add(list(info))

@@ -1,7 +1,7 @@
 import { capitalize } from 'common/string';
 import { Fragment } from 'inferno';
 import { useBackend, useLocalState } from '../backend';
-import { Box, Button, ByondUi, Flex, Collapsible, Icon, LabeledList, NoticeBox, Section, Tabs, Divider } from '../components';
+import { Box, Button, ByondUi, Flex, Collapsible, Icon, LabeledList, NoticeBox, Section, Tabs, Divider, ProgressBar } from '../components';
 import { Window } from '../layouts';
 import { classes } from 'common/react';
 
@@ -1124,6 +1124,17 @@ const VoreContentsPanel = (props, context) => {
         <Flex wrap="wrap" justify="center" align="center">
           {contents.map((thing) => (
             <Flex.Item key={thing.name} basis="33%">
+              {thing.health && (
+                <ProgressBar
+                  value={thing.health[0]}
+                  maxValue={thing.health[1]}
+                  width="54px"
+                  height="5px"
+                  style={{
+                    'margin': '5px',
+                  }}
+                />
+              )}
               <Button
                 width="64px"
                 color={thing.absorbed ? 'purple' : stats[thing.stat]}
