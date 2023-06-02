@@ -59,23 +59,23 @@ var/global/list/additional_antag_types = list()
 		var/choice = ""
 		switch(href_list["set"])
 			if("shuttle_delay")
-				choice = input(usr, "Enter a new shuttle delay multiplier") as num
+				choice = tgui_input_number(usr, "Enter a new shuttle delay multiplier", null, null, 20, 1)
 				if(!choice || choice < 1 || choice > 20)
 					return
 				shuttle_delay = choice
 			if("antag_scaling")
-				choice = input(usr, "Enter a new antagonist cap scaling coefficient.") as num
+				choice = tgui_input_number(usr, "Enter a new antagonist cap scaling coefficient.", null, null, 100, 0)
 				if(isnull(choice) || choice < 0 || choice > 100)
 					return
 				antag_scaling_coeff = choice
 			if("event_modifier_moderate")
-				choice = input(usr, "Enter a new moderate event time modifier.") as num
+				choice = tgui_input_number(usr, "Enter a new moderate event time modifier.", null, null, 100, 0)
 				if(isnull(choice) || choice < 0 || choice > 100)
 					return
 				event_delay_mod_moderate = choice
 				refresh_event_modifiers()
 			if("event_modifier_severe")
-				choice = input(usr, "Enter a new moderate event time modifier.") as num
+				choice = tgui_input_number(usr, "Enter a new moderate event time modifier.", null, null, 100, 0)
 				if(isnull(choice) || choice < 0 || choice > 100)
 					return
 				event_delay_mod_major = choice
@@ -348,7 +348,7 @@ var/global/list/additional_antag_types = list()
 					escaped_on_pod_large_2++
 				if(M_area_type == /area/shuttle/cryo/centcom) //CHOMP Add
 					escaped_on_cryopod++
-				
+
 
 
 			if(isobserver(M))
@@ -397,11 +397,11 @@ var/global/list/additional_antag_types = list()
 
 	send2mainirc("A round of [src.name] has ended - [surviving_total] survivors, [ghosts] ghosts.")
 	SSwebhooks.send(
-		WEBHOOK_ROUNDEND, 
+		WEBHOOK_ROUNDEND,
 		list(
-			"survivors" = surviving_total, 
-			"escaped" = escaped_total, 
-			"ghosts" = ghosts, 
+			"survivors" = surviving_total,
+			"escaped" = escaped_total,
+			"ghosts" = ghosts,
 			"clients" = clients
 		)
 	)
@@ -542,6 +542,8 @@ var/global/list/additional_antag_types = list()
 					else
 						msg += "<b>[L.name]</b> ([ckey(D.mind.key)]), the [L.job] (<font color='red'><b>Ghosted</b></font>)\n"
 						continue //Ghosted while alive
+
+			continue // CHOMPEdit: Escape infinite loop in case there's nobody connected. Shouldn't happen ever, but.
 
 	msg += "</span>" // close the span from right at the top
 

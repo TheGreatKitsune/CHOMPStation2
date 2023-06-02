@@ -41,9 +41,9 @@ var/list/global_huds = list(
 
 /datum/global_hud/proc/setup_overlay(var/icon_state)
 	var/obj/screen/screen = new /obj/screen()
-	screen.alpha = 40 // Adjut this if you want goggle overlays to be thinner or thicker.
+	screen.alpha = 30 // Adjut this if you want goggle overlays to be thinner or thicker. //VOREStation Edit
 	screen.screen_loc = "SOUTHWEST to NORTHEAST" // Will tile up to the whole screen, scaling beyond 15x15 if needed.
-	screen.icon = 'icons/obj/hud_tiled.dmi'
+	screen.icon = 'icons/obj/hud_tiled_vr.dmi'	//VOREStation Edit
 	screen.icon_state = icon_state
 	screen.layer = SCREEN_LAYER
 	screen.plane = PLANE_FULLSCREEN
@@ -192,7 +192,7 @@ var/list/global_huds = list(
 	var/icon/ui_style
 	var/ui_color
 	var/ui_alpha
-	
+
 	// TGMC Ammo HUD Port
 	var/list/obj/screen/ammo_hud_list = list()
 
@@ -205,7 +205,7 @@ var/list/global_huds = list(
 
 /datum/hud/Destroy()
 	. = ..()
-	qdel_null(minihuds)
+	QDEL_NULL_LIST(minihuds)
 	grab_intent = null
 	hurt_intent = null
 	disarm_intent = null
@@ -224,7 +224,9 @@ var/list/global_huds = list(
 	other_important = null
 	hotkeybuttons = null
 //	item_action_list = null // ?
-	QDEL_LIST(ammo_hud_list)
+	for (var/x in ammo_hud_list)
+		remove_ammo_hud(mymob, x)
+	ammo_hud_list = null
 	mymob = null
 
 /datum/hud/proc/hidden_inventory_update()
@@ -368,6 +370,9 @@ var/list/global_huds = list(
 	toggle_hud_vis(full)
 
 /mob/proc/toggle_hud_vis(full)
+	if(!client)
+		return FALSE
+
 	if(hud_used.hud_shown)
 		hud_used.hud_shown = 0
 		if(hud_used.adding)
@@ -405,7 +410,8 @@ var/list/global_huds = list(
 	return TRUE
 
 /mob/living/carbon/human/toggle_hud_vis(full)
-	..()
+	if(!(. = ..()))
+		return FALSE
 
 	// Prevents humans from hiding a few hud elements
 	if(!hud_used.hud_shown) // transitioning to hidden
@@ -466,7 +472,7 @@ var/list/global_huds = list(
 
 /mob/new_player/add_click_catcher()
 	return
-	
+
 /* TGMC Ammo HUD Port
  * These procs call to screen_objects.dm's respective procs.
  * All these do is manage the amount of huds on screen and set the HUD.

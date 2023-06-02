@@ -18,10 +18,11 @@
 	default_pixel_x = -48
 	pixel_x = -48
 	pixel_y = 0
+	vis_height = 92
 	response_help = "pats"
 	response_disarm = "shoves"
 	response_harm = "bops"
-	movement_cooldown = 2
+	movement_cooldown = -1
 	maxHealth = 1500
 	attacktext = list("chomped")
 	see_in_dark = 8
@@ -46,6 +47,15 @@
 	vore_pounce_maxhealth = 125
 	vore_bump_emote = "tries to snap up"
 
+	nom_mob = TRUE
+
+	can_be_drop_prey = FALSE //CHOMP Add
+	// CHOMPAdd: :c
+	pain_sound = canine_pain_sounds
+	pain_emote_1p = list("yelp", "whine", "bark", "growl")
+	pain_emote_3p = list("yelps", "whines", "barks", "growls")
+	death_sound = canine_death_sounds
+
 /datum/category_item/catalogue/fauna/leopardmander
 	name = "Sivian Fauna - Va'aen Drake"
 	desc = "Classification: S Draconis uncia\
@@ -64,7 +74,7 @@
 		riding_datum = new /datum/riding/simple_mob(src)
 	verbs |= /mob/living/simple_mob/proc/animal_mount
 	verbs |= /mob/living/proc/toggle_rider_reins
-	movement_cooldown = 2
+	movement_cooldown = -1
 
 /mob/living/simple_mob/vore/leopardmander/Initialize()
 	..()

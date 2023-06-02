@@ -7,7 +7,7 @@
 	icon_living = "panther"
 	icon_rest = "panther-rest"
 	icon_dead = "panther-dead"
-	icon = 'icons/mob/vore64x32_ch.dmi'
+	icon = 'modular_chomp/icons/mob/vore64x32_ch.dmi'
 	vis_height = 64
 
 	faction = "panther"

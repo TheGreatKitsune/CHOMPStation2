@@ -17,7 +17,7 @@
 
 	mob_size = MOB_SMALL
 
-	has_langs = list("Dog")
+	has_langs = list(LANGUAGE_ANIMAL)
 
 	say_list_type = /datum/say_list/dog
 
@@ -26,6 +26,11 @@
 
 	var/obj/item/inventory_head
 	var/obj/item/inventory_back
+
+	// CHOMPAdd: :c
+	species_sounds = "Canine"
+	pain_emote_1p = list("yelp", "whine", "bark", "growl")
+	pain_emote_3p = list("yelps", "whines", "barks", "growls")
 
 
 /mob/living/simple_mob/animal/passive/dog/attackby(var/obj/item/O as obj, var/mob/user as mob)

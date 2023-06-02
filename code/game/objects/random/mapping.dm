@@ -77,14 +77,14 @@
 				prob(3);/obj/machinery/vending/fitness,
 				prob(4);/obj/machinery/vending/cigarette,
 				prob(3);/obj/machinery/vending/giftvendor,
-				prob(1);/obj/machinery/vending/hotfood,
 				prob(5);/obj/machinery/vending/weeb,
 				prob(5);/obj/machinery/vending/sol,
 				prob(5);/obj/machinery/vending/snix,
 				prob(5);/obj/machinery/vending/snlvend,
 				prob(5);/obj/machinery/vending/sovietsoda,
 				prob(5);/obj/machinery/vending/sovietvend,
-				prob(5);/obj/machinery/vending/radren) //VOREStation Edit End
+				prob(5);/obj/machinery/vending/radren,
+				prob(3);/obj/machinery/vending/altevian) //VOREStation Edit End
 
 /obj/random/vendorfood //Random food vendors for station use
 	name = "random snack vending machine"
@@ -97,7 +97,8 @@
 				/obj/machinery/vending/weeb,
 				/obj/machinery/vending/sol,
 				/obj/machinery/vending/snix,
-				/obj/machinery/vending/snlvend)
+				/obj/machinery/vending/snlvend,
+				/obj/machinery/vending/altevian)
 
 /obj/random/vendordrink //Random drink vendors for station use
 	name = "random drink vending machine"
@@ -836,7 +837,14 @@
 				/obj/random/firstaid,
 				/obj/random/unidentified_medicine/fresh_medicine,
 				/obj/random/unidentified_medicine/fresh_medicine,
-				/obj/structure/closet/crate/veymed //VM FAKS
+				/obj/structure/closet/crate/freezer/veymed //VM FAKS
+			),
+			prob(5);list(
+				/obj/random/internal_organ,
+				/obj/random/internal_organ,
+				/obj/random/internal_organ,
+				/obj/random/internal_organ,
+				/obj/structure/closet/crate/freezer/veymed //VM ORGANSES
 			),
 			prob(10);list(
 				/obj/random/tech_supply/nofail,
@@ -853,7 +861,7 @@
 				/obj/random/medical/pillbottle,
 				/obj/random/medical/lite,
 				/obj/random/medical/lite,
-				/obj/structure/closet/crate/zenghu //ZENGHU GRABBAG
+				/obj/structure/closet/crate/freezer/zenghu //ZENGHU GRABBAG
 			),
 			prob(10);list(
 				/obj/random/medical/pillbottle,
@@ -862,7 +870,7 @@
 				/obj/random/medical/pillbottle,
 				/obj/random/unidentified_medicine/fresh_medicine,
 				/obj/random/unidentified_medicine/fresh_medicine,
-				/obj/structure/closet/crate/zenghu //ZENGHU PILLS
+				/obj/structure/closet/crate/freezer/zenghu //ZENGHU PILLS
 			),
 			prob(10);list(
 				/obj/item/device/toner,
@@ -1098,7 +1106,7 @@
 				/obj/random/medical,
 				/obj/random/medical/lite,
 				/obj/random/medical/lite,
-				/obj/structure/closet/crate/veymed //VM GRABBAG
+				/obj/structure/closet/crate/freezer/veymed //VM GRABBAG
 			),
 			prob(10);list(
 				/obj/random/firstaid,
@@ -1107,7 +1115,14 @@
 				/obj/random/firstaid,
 				/obj/random/unidentified_medicine/fresh_medicine,
 				/obj/random/unidentified_medicine/fresh_medicine,
-				/obj/structure/closet/crate/veymed //VM FAKS
+				/obj/structure/closet/crate/freezer/veymed //VM FAKS
+			),
+			prob(5);list(
+				/obj/random/internal_organ,
+				/obj/random/internal_organ,
+				/obj/random/internal_organ,
+				/obj/random/internal_organ,
+				/obj/structure/closet/crate/freezer/veymed //VM ORGANSES
 			),
 			prob(10);list(
 				/obj/random/tech_supply/nofail,
@@ -1124,7 +1139,7 @@
 				/obj/random/medical/pillbottle,
 				/obj/random/medical/lite,
 				/obj/random/medical/lite,
-				/obj/structure/closet/crate/zenghu //ZENGHU GRABBAG
+				/obj/structure/closet/crate/freezer/zenghu //ZENGHU GRABBAG
 			),
 			prob(10);list(
 				/obj/random/medical/pillbottle,
@@ -1133,7 +1148,7 @@
 				/obj/random/medical/pillbottle,
 				/obj/random/unidentified_medicine/fresh_medicine,
 				/obj/random/unidentified_medicine/fresh_medicine,
-				/obj/structure/closet/crate/zenghu //ZENGHU PILLS
+				/obj/structure/closet/crate/freezer/zenghu //ZENGHU PILLS
 			),
 			prob(10);list(
 				/obj/item/device/toner,

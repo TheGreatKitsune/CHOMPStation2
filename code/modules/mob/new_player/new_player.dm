@@ -117,7 +117,7 @@
 			var/datum/job/refJob = null
 			for(var/mob/new_player/player in player_list)
 				refJob = player.client.prefs.get_highest_job()
-				stat("[player.key]", (player.ready)?("(Playing as: [(refJob)?(refJob.title):("Unknown")])"):(null))
+				stat("Player", (player.ready)?("(Playing as: [(refJob)?(refJob.title):("Unknown")])"):(null)) //CHOMPEDIT: Anonymizing [player.key]
 				totalPlayers++
 				if(player.ready)totalPlayersReady++
 
@@ -369,7 +369,7 @@
 		popup.set_content(dat)
 		popup.open()
 
-/mob/new_player/proc/time_till_respawn()
+/mob/proc/time_till_respawn()
 	if(!ckey)
 		return -1 // What?
 
@@ -389,14 +389,21 @@
 
 /mob/new_player/proc/IsJobAvailable(rank)
 	var/datum/job/job = job_master.GetJob(rank)
-	if(!job)	return 0
-	if(!job.is_position_available()) return 0
-	if(jobban_isbanned(src,rank))	return 0
-	if(!job.player_old_enough(src.client))	return 0
+	if(!job)
+		return 0
+	if(!job.is_position_available())
+		return 0
+	if(jobban_isbanned(src,rank))
+		return 0
+	if(!job.player_old_enough(src.client))
+		return 0
 	//VOREStation Add
-	if(!job.player_has_enough_playtime(src.client))	return 0
-	if(!is_job_whitelisted(src,rank))	return 0
-	if(!job.player_has_enough_pto(src.client)) return 0
+	if(!job.player_has_enough_playtime(src.client))
+		return 0
+	if(!is_job_whitelisted(src,rank))
+		return 0
+	if(!job.player_has_enough_pto(src.client))
+		return 0
 	//VOREStation Add End
 	return 1
 
@@ -432,6 +439,32 @@
 
 	spawning = 1
 	close_spawn_windows()
+
+	//CHOMPEdit start - join as mob in crystal...
+	var/obj/item/itemtf = join_props["itemtf"]
+	if(itemtf && istype(itemtf, /obj/item/capture_crystal))
+		var/obj/item/capture_crystal/cryst = itemtf
+		if(cryst.spawn_mob_type)
+			// We want to be a spawned mob instead of a person aaaaa
+			var/mob/living/carrier = join_props["carrier"]
+			var/vorgans = join_props["vorgans"]
+			cryst.bound_mob = new cryst.spawn_mob_type(cryst)
+			cryst.spawn_mob_type = null
+			cryst.bound_mob.ai_holder_type = /datum/ai_holder/simple_mob/inert
+			cryst.bound_mob.key = src.key
+			log_and_message_admins("[key_name_admin(src)] joined [cryst.bound_mob] inside a capture crystal [ADMIN_FLW(cryst.bound_mob)]")
+			if(vorgans)
+				cryst.bound_mob.copy_from_prefs_vr()
+			if(istype(carrier))
+				cryst.capture(cryst.bound_mob, carrier)
+			else
+				//Something went wrong, but lets try to do as much as we can.
+				cryst.bound_mob.capture_caught = TRUE
+				cryst.persist_storable = FALSE
+			cryst.update_icon()
+			qdel(src)
+			return
+	//CHOMPEdit end
 
 	job_master.AssignRole(src, rank, 1)
 
@@ -475,15 +508,42 @@
 
 	ticker.mode.latespawn(character)
 
-	if(J.mob_type & JOB_SILICON)
+	//CHOMPEdit Begin - non-crew join don't get a message
+	if(rank == JOB_OUTSIDER)
+		log_and_message_admins("has joined the round as non-crew. (<A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[T.x];Y=[T.y];Z=[T.z]'>JMP</a>)",character)
+		if(!(J.mob_type & JOB_SILICON))
+			ticker.minds += character.mind
+	//CHOMPEdit End
+	else if(J.mob_type & JOB_SILICON)
 		AnnounceCyborg(character, rank, join_message, announce_channel, character.z)
 	else
 		AnnounceArrival(character, rank, join_message, announce_channel, character.z)
 		data_core.manifest_inject(character)
 		ticker.minds += character.mind//Cyborgs and AIs handle this in the transform proc.	//TODO!!!!! ~Carn
+	if(ishuman(character))
+		if(character.client.prefs.auto_backup_implant)
+			var/obj/item/weapon/implant/backup/imp = new(src)
+
+			if(imp.handle_implant(character,character.zone_sel.selecting))
+				imp.post_implant(character)
 	var/gut = join_props["voreny"]
 	var/mob/living/prey = join_props["prey"]
-	if(prey)
+	//CHOMPEdit Start - Item TF
+	if(itemtf && istype(itemtf, /obj/item/capture_crystal))
+		//We want to be in the crystal, not actually possessing the crystal.
+		var/obj/item/capture_crystal/cryst = itemtf
+		var/mob/living/carrier = join_props["carrier"]
+		cryst.capture(character, carrier)
+		character.forceMove(cryst)
+		cryst.update_icon()
+	else if(itemtf)
+		itemtf.inhabit_item(character, itemtf.name, character)
+		var/mob/living/possessed_voice = itemtf.possessed_voice
+		itemtf.trash_eatable = character.devourable
+		itemtf.unacidable = !character.digestable
+		character.forceMove(possessed_voice)
+	//CHOMPEdit End
+	else if(prey)
 		character.copy_from_prefs_vr(1,1) //Yes I know we're reloading these, shut up
 		var/obj/belly/gut_to_enter
 		for(var/obj/belly/B in character.vore_organs)
@@ -497,7 +557,6 @@
 	else
 		if(gut)
 			character.forceMove(gut)
-
 
 	qdel(src) // Delete new_player mob
 
@@ -534,6 +593,10 @@
 			// Checks for jobs with minimum age requirements
 			if((job.minimum_character_age || job.min_age_by_species) && (client.prefs.age < job.get_min_age(client.prefs.species, client.prefs.organ_data["brain"])))
 				continue
+			//CHOMPEdit Begin - Check species job bans... (Only used for shadekin)
+			if(job.is_species_banned(client.prefs.species, client.prefs.organ_data["brain"]))
+				continue
+			//CHOMPEdit End
 			// Checks for jobs set to "Never" in preferences	//TODO: Figure out a better way to check for this
 			if(!(client.prefs.GetJobDepartment(job, 1) & job.flag))
 				if(!(client.prefs.GetJobDepartment(job, 2) & job.flag))
@@ -616,6 +679,17 @@
 		if(chosen_language)
 			if(is_lang_whitelisted(src,chosen_language) || (new_character.species && (chosen_language.name in new_character.species.secondary_langs)))
 				new_character.add_language(lang)
+	for(var/key in client.prefs.language_custom_keys)
+		if(client.prefs.language_custom_keys[key])
+			var/datum/language/keylang = GLOB.all_languages[client.prefs.language_custom_keys[key]]
+			if(keylang)
+				new_character.language_keys[key] = keylang
+	// CHOMPStation Add: Preferred Language Setting;
+	if(client.prefs.preferred_language) // Do we have a preferred language?
+		var/datum/language/def_lang = GLOB.all_languages[client.prefs.preferred_language]
+		if(def_lang)
+			new_character.default_language = def_lang
+	// CHOMPStation Add End
 	// And uncomment this, too.
 	//new_character.dna.UpdateSE()
 

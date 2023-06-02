@@ -40,7 +40,7 @@ var/global/list/moth_amount = 0 // Chompstation Addition, Rykka waz here. *pawst
 	melee_damage_lower = 1
 	melee_damage_upper = 3	//low damage, but poison and stuns are strong
 
-	movement_cooldown = 8
+	movement_cooldown = 3
 
 	meat_type = /obj/item/weapon/reagent_containers/food/snacks/meat/grubmeat
 	meat_amount = 6
@@ -59,6 +59,9 @@ var/global/list/moth_amount = 0 // Chompstation Addition, Rykka waz here. *pawst
 	var/obj/structure/cable/attached        // the attached cable
 	var/shock_chance = 10 // Beware
 	var/powerdraw = 100000 // previous value 150000 // CHOMPStation Addition, Rykka waz here. *pawstamp*
+	var/tracked = FALSE
+	
+	can_be_drop_prey = FALSE //CHOMP Add
 
 /datum/say_list/solargrub
 	emote_see = list("squelches", "squishes")

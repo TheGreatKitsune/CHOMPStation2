@@ -12,7 +12,7 @@
 	maxHealth = 60
 	health = 60
 
-	movement_cooldown = 1.5 //horses are fast mkay.
+	movement_cooldown = -2 //horses are fast mkay.
 	see_in_dark = 6
 
 	response_help  = "pets"
@@ -34,6 +34,8 @@
 
 	say_list_type = /datum/say_list/horse
 	ai_holder_type = /datum/ai_holder/simple_mob/retaliate
+	
+	can_be_drop_prey = FALSE //CHOMP Add
 
 /mob/living/simple_mob/vore/horse/big
 	name = "horse"
@@ -72,7 +74,7 @@
 		riding_datum = new /datum/riding/simple_mob(src)
 	verbs |= /mob/living/simple_mob/proc/animal_mount
 	verbs |= /mob/living/proc/toggle_rider_reins
-	movement_cooldown = 1.5
+	movement_cooldown = -2
 
 /mob/living/simple_mob/vore/horse/MouseDrop_T(mob/living/M, mob/living/user)
 	return

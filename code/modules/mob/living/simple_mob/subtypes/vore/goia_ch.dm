@@ -2,7 +2,7 @@
 	name = "zorgoia"
 	desc = "It's a a reptilian mammal hybrid, known for its voracious nature and love for fruits. By more popular terms its refered to as the furry slinky!"
 	tt_desc = "Zorgoyuh slinkus"
-	icon = 'icons/mob/vore64x32_ch.dmi'
+	icon = 'modular_chomp/icons/mob/vore64x32_ch.dmi'
 	icon_state = "zorgoia"
 	icon_living = "zorgoia"
 	icon_dead = "zorgoia-dead"
@@ -27,6 +27,11 @@
 	vore_capacity = 3 //These bois can nom a bunch!
 	vore_pounce_chance = 35	//More likely to nom
 	vore_icons = SA_ICON_LIVING | SA_ICON_REST
+
+	// CHOMPAdd: Don't think its checked, but just in case
+	species_sounds = "Canine"
+	pain_emote_1p = list("yelp", "whine", "bark", "growl")
+	pain_emote_3p = list("yelps", "whines", "barks", "growls")
 
 /mob/living/simple_mob/otie/zorgoia/New()
 	..()

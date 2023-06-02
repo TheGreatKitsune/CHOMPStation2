@@ -267,7 +267,7 @@
 	color = reagents.get_color()
 	update_icon()
 
-/obj/item/weapon/storage/box/pocky //ADDITION 04/17/2021
+/obj/item/weapon/storage/box/pocky
 	name = "\improper Totemo yoi Pocky"
 	desc = "A bundle of chocolate-coated bisquit sticks."
 	icon = 'icons/obj/food_snacks.dmi'
@@ -282,18 +282,17 @@
 	foldable = null
 	trash = /obj/item/trash/pocky
 
-/obj/item/clothing/mask/chewable/candy/pocky //ADDITION 04/17/2021
+/obj/item/clothing/mask/chewable/candy/pocky
 	name = "chocolate pocky"
 	desc = "A chocolate-coated biscuit stick."
 	icon_state = "pockystick"
 	item_state = "pocky"
+	filling = list("sugar" = 2, "chocolate" = 5)
 	type_butt = null
 
 /obj/item/clothing/mask/chewable/candy/pocky/process()
 	chew()
 	if(chewtime < 1)
+		if(ismob(loc))
+			to_chat(loc, "<span class='notice'>There's no more of \the [name] left!</span>")
 		spitout(0)
-
-/obj/item/clothing/mask/chewable/candy/pocky/Initialize()
-	. = ..()
-	reagents.add_reagent("chocolate", 10)

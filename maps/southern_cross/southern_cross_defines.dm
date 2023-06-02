@@ -17,10 +17,12 @@ but they don't actually change anything about the load order
 #define Z_LEVEL_TRANSIT					8
 #define Z_LEVEL_SURFACE_WILD			9
 #define Z_LEVEL_SURFACE_SKYLANDS		10
-#define Z_LEVEL_FUELDEPOT				11
-#define Z_LEVEL_AEROSTAT				12
-#define Z_LEVEL_NS_MINE					13
-#define Z_LEVEL_GATEWAY					14 
+#define Z_LEVEL_SURFACE_VALLEY 			11
+#define Z_LEVEL_VR_REALM                12
+#define Z_LEVEL_FUELDEPOT				13
+#define Z_LEVEL_AEROSTAT				14
+#define Z_LEVEL_NS_MINE					15
+#define Z_LEVEL_GATEWAY					16
 
 //#define Z_LEVEL_SURFACE_CASINO			xx	//CHOMPedit - KSC = So there is weather on the casino. //Raz - When you do casino again, launch it in a test server, note what z-level it is on, and then replace xx with that z-level you noted. Revert back to xx and comment out when done.
 //#define Z_LEVEL_EMPTY_SPACE				xx //CHOMPedit: Disabling empty space as now the overmap generates empty space on demand.
@@ -31,9 +33,9 @@ but they don't actually change anything about the load order
 	full_name = "Southern Cross"
 	path = "southern_cross"
 
-	lobby_icon = 'icons/misc/CHOMPSTATION_BG_eggman.gif'	//CHOMPStation Edit TFF 24/12/19 - _ch.dmi
-	lobby_screens = list() //CHOMPStation Edit TFF 24/12/19 - CHOMPStation image
-	id_hud_icons = 'icons/mob/hud_jobs_vr.dmi'	//CHOMPStation Edit 25/1/20 TFF - Job icons for off-duty/exploration
+	lobby_icon = 'icons/misc/CHOMPSTATION.gif'	//CHOMPStation Edit
+	lobby_screens = list() //CHOMPStation Edit - CHOMPStation image
+	id_hud_icons = 'icons/mob/hud_jobs_vr.dmi'	//CHOMPStation Edit - Job icons for off-duty/exploration
 
 	holomap_smoosh = list(list(
 		Z_LEVEL_STATION_ONE,
@@ -98,7 +100,7 @@ but they don't actually change anything about the load order
 							NETWORK_SUPPLY
 							)
 	usable_email_tlds = list("freemail.nt")
-	allowed_spawns = list("Arrivals Shuttle","Gateway", "Cryogenic Storage", "Cyborg Storage", "Station gateway")
+	allowed_spawns = list("Arrivals Shuttle","Gateway", "Cryogenic Storage", "Cyborg Storage", "Station gateway", "Sif plains")
 	default_skybox = /datum/skybox_settings/southern_cross
 	unit_test_exempt_areas = list(/area/ninja_dojo, /area/shuttle/ninja)
 	unit_test_exempt_from_atmos = list(/area/tcomm/chamber)
@@ -116,6 +118,7 @@ but they don't actually change anything about the load order
 
 	// Framework for porting Tether's lateload Z-Level system //Stock lateload maps
 	lateload_z_levels = list(
+			list("VR World"),
 			list("Fuel Depot - Z1 Space"),
 			list("Kara Aerostat - Z1 Aerostat"),
 			list("Kara - Z1 Northern Star")
@@ -165,10 +168,12 @@ but they don't actually change anything about the load order
 	// Wilderness is next.
 	seed_submaps(list(Z_LEVEL_SURFACE_WILD), 240, /area/surface/outside/wilderness/normal, /datum/map_template/surface/wilderness/normal)  //CHOMPEdit bumped up from 60 to 150
 	seed_submaps(list(Z_LEVEL_SURFACE_WILD), 240, /area/surface/outside/wilderness/deep, /datum/map_template/surface/wilderness/deep)  //CHOMPEdit bumped up from 60 to 150
+	seed_submaps(list(Z_LEVEL_SURFACE_VALLEY), 200, /area/surface/outside/valley/walls, /datum/map_template/surface/valley/walls)
+	seed_submaps(list(Z_LEVEL_SURFACE_VALLEY), 200, /area/surface/outside/valley/inner, /datum/map_template/surface/valley/inner)
 	// If Space submaps are made, add a line to make them here as well.
 
 	// Now for the tunnels. (This decides the load order of ore generation and cave generation. Check Random_Map to see % )
-	new /datum/random_map/automata/cave_system/no_cracks(null, 1, 1, Z_LEVEL_SURFACE_MINE, world.maxx, world.maxy) // Create the mining Z-level.
+	new /datum/random_map/automata/cave_system/(null, 1, 1, Z_LEVEL_SURFACE_MINE, world.maxx, world.maxy) // Create the mining Z-level.
 	new /datum/random_map/noise/ore(null, 1, 1, Z_LEVEL_SURFACE_MINE, 64, 64)         // Create the mining ore distribution map.
 	// Todo: Forest generation.
 	return 1
@@ -243,6 +248,12 @@ but they don't actually change anything about the load order
 	flags = MAP_LEVEL_PLAYER|MAP_LEVEL_SEALED|MAP_LEVEL_CONTACT|MAP_LEVEL_CONSOLES
 	base_turf = /turf/simulated/open
 
+/datum/map_z_level/southern_cross/surface_valley
+	z = Z_LEVEL_SURFACE_VALLEY
+	name = "Valley"
+	flags = MAP_LEVEL_PLAYER|MAP_LEVEL_SEALED|MAP_LEVEL_CONTACT|MAP_LEVEL_CONSOLES
+	base_turf = /turf/simulated/floor/outdoors/rocks
+
 //CHOMPedit - KSC = So Christmas Casino has weather.
 /*/datum/map_z_level/southern_cross/surface_casino
 	z = Z_LEVEL_SURFACE_CASINO
@@ -302,7 +313,8 @@ but they don't actually change anything about the load order
 		Z_LEVEL_SURFACE,
 		Z_LEVEL_SURFACE_MINE,
 		Z_LEVEL_SURFACE_WILD,
-		Z_LEVEL_SURFACE_SKYLANDS
+		Z_LEVEL_SURFACE_SKYLANDS,
+		Z_LEVEL_SURFACE_VALLEY
 	)
 //Z_LEVEL_SURFACE_CASINO //CHOMPedit - KSC = So there is weather on the Casino. //Move this into /datum/planet/sif and remember to add a coma for the new entry, for when you need the casino again
 
@@ -368,6 +380,13 @@ but they don't actually change anything about the load order
 
 /obj/effect/map_effect/portal/master/side_b/wilderness_to_caves/river
 	portal_id = "caves_wilderness-river"
+
+/obj/effect/map_effect/portal/master/side_a/wilderness_to_valley
+	portal_id = "wilderness_valley"
+
+/obj/effect/map_effect/portal/master/side_b/wilderness_to_valley
+	portal_id = "wilderness_valley"
+
 
 /*
 //CHOMPEdit this is very much necessary for us otherwise weather sounds play on other levels

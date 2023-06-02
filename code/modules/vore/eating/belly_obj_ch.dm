@@ -12,8 +12,6 @@
 		"Draining Liquids" = DM_FLAG_REAGENTSDRAIN
 		)
 
-	var/belly_fullscreen_color = "#823232"
-
 	var/show_liquids = FALSE //Moved from vorepanel_ch to be a belly var
 	var/show_fullness_messages = FALSE //Moved from vorepanel_ch to be a belly var
 
@@ -71,9 +69,87 @@
 	"Milk",
 	"Cream",
 	"Honey",
-	"Cherry Jelly"
+	"Cherry Jelly",
+	"Digestive acid",
+	"Diluted digestive acid",
+	"Lube",
+	"Biomass"
 	)
 
+	//CHOMP - vore sprites
+	var/vore_sprite_flags = DM_FLAG_VORESPRITE_BELLY
+	var/tmp/static/list/vore_sprite_flag_list= list(
+		"Normal belly sprite" = DM_FLAG_VORESPRITE_BELLY,
+		//"Tail adjustment" = DM_FLAG_VORESPRITE_TAIL,
+		//"Marking addition" = DM_FLAG_VORESPRITE_MARKING,
+		"Undergarment addition" = DM_FLAG_VORESPRITE_ARTICLE,
+		)
+
+	var/affects_vore_sprites = FALSE
+	var/count_absorbed_prey_for_sprite = TRUE
+	var/absorbed_multiplier = 1
+	var/count_liquid_for_sprite = FALSE
+	var/liquid_multiplier = 1
+	var/count_items_for_sprite = FALSE
+	var/item_multiplier = 1
+	var/health_impacts_size = TRUE
+	var/resist_triggers_animation = TRUE
+	var/size_factor_for_sprite = 1
+	var/belly_sprite_to_affect = "stomach"
+	var/undergarment_chosen = "Underwear, bottom"
+	var/undergarment_if_none
+	var/undergarment_color = COLOR_GRAY
+	var/datum/sprite_accessory/tail/tail_to_change_to = FALSE
+	var/tail_colouration = FALSE
+	var/tail_extra_overlay = FALSE
+	var/tail_extra_overlay2 = FALSE
+	//var/marking_to_add = NULL
+	//var/marking_color = NULL
+	var/special_entrance_sound				// Mob specific custom entry sound set by mob's init_vore when applicable
+	var/slow_digestion = FALSE				// Gradual corpse digestion
+	var/slow_brutal = FALSE					// Gradual corpse digestion: Stumpy's Special
+	var/sound_volume = 100					// Volume knob.
+	var/speedy_mob_processing = FALSE		// Independent belly processing to utilize SSobj instead of SSbellies 3x speed.
+	var/cycle_sloshed = FALSE				// Has vorgan entrance made a wet slosh this cycle? Soundspam prevention for multiple items entered.
+
+/obj/belly/proc/GetFullnessFromBelly()
+	if(!affects_vore_sprites)
+		return 0
+	var/belly_fullness = 0
+	for(var/mob/living/M in src)
+		if(count_absorbed_prey_for_sprite || !M.absorbed)
+			var/fullness_to_add = M.size_multiplier
+			fullness_to_add *= M.mob_size / 20
+			if(M.absorbed)
+				fullness_to_add *= absorbed_multiplier
+			if(health_impacts_size)
+				if(ishuman(M))
+					fullness_to_add *= (M.health + 100) / (M.getMaxHealth() + 100)
+				else
+					fullness_to_add *= M.health / M.getMaxHealth()
+			if(fullness_to_add > 0)
+				belly_fullness += fullness_to_add
+	if(count_liquid_for_sprite)
+		belly_fullness += (reagents.total_volume / 100) * liquid_multiplier
+	if(count_items_for_sprite)
+		for(var/obj/item/I in src)
+			var/fullness_to_add = 0
+			if(I.w_class == ITEMSIZE_TINY)
+				fullness_to_add = ITEMSIZE_COST_TINY
+			else if(I.w_class == ITEMSIZE_SMALL)
+				fullness_to_add = ITEMSIZE_COST_SMALL
+			else if(I.w_class == ITEMSIZE_NORMAL)
+				fullness_to_add = ITEMSIZE_COST_NORMAL
+			else if(I.w_class == ITEMSIZE_LARGE)
+				fullness_to_add = ITEMSIZE_COST_LARGE
+			else if(I.w_class == ITEMSIZE_HUGE)
+				fullness_to_add = ITEMSIZE_COST_HUGE
+			else
+				fullness_to_add = ITEMSIZE_COST_NO_CONTAINER
+			fullness_to_add /= 32
+			belly_fullness += fullness_to_add * item_multiplier
+	belly_fullness *= size_factor_for_sprite
+	return belly_fullness
 
 
 ///////////////////// NUTRITION REAGENT PRODUCTION /////////////////
@@ -93,6 +169,15 @@
 				gen_interval = 0
 			else
 				gen_interval++
+	if(reagents.total_volume)
+		for(var/mob/living/L in contents)
+			if(L.digestable && digest_mode == DM_DIGEST)
+				if(reagents.total_volume)
+					reagents.trans_to(L, reagents.total_volume, 0.1 / (LAZYLEN(contents) ? LAZYLEN(contents) : 1), FALSE)
+			vore_fx(L, FALSE, reagents.total_volume)
+		for(var/obj/item/I in contents)
+			if(reagents.total_volume)
+				reagents.trans_to(I, reagents.total_volume, 0.1 / (LAZYLEN(contents) ? LAZYLEN(contents) : 1), FALSE)
 
 /obj/belly/proc/GenerateBellyReagents()
 	if(isrobot(owner))
@@ -102,16 +187,18 @@
 		owner.nutrition -= gen_cost
 	for(var/reagent in generated_reagents)
 		reagents.add_reagent(reagent, generated_reagents[reagent])
+	if(count_liquid_for_sprite)
+		owner.update_fullness() //This is run whenever a belly's contents are changed.
 
 //////////////////////////// REAGENT_DIGEST ////////////////////////
 
 /obj/belly/proc/GenerateBellyReagents_digesting()	//The rate isnt based on selected reagent, due to the fact that the price of the reagent is already paid by nutrient not gained.
 	if(reagents.total_volume + (digest_nutri_gain * gen_amount) <= custom_max_volume) //By default a reagent with an amount of 1 should result in pred getting 100 units from a full health prey
 		for(var/reagent in generated_reagents)
-			reagents.add_reagent(reagent, generated_reagents[reagent] * digest_nutri_gain)
+			reagents.add_reagent(reagent, generated_reagents[reagent] * digest_nutri_gain / gen_cost)
 	else
-		for(var/reagent in generated_reagents)
-			reagents.add_reagent(reagent, generated_reagents[reagent] / gen_amount * (custom_max_volume - reagents.total_volume))
+		owner.adjust_nutrition((4.5 * digest_nutri_gain) * owner.get_digestion_efficiency_modifier())
+		digest_nutri_gain = 0
 
 /obj/belly/proc/GenerateBellyReagents_digested()
 	if(reagents.total_volume <= custom_max_volume - 25 * gen_amount)
@@ -184,6 +271,41 @@
 			gen_cost = 10
 			reagentid = "cherryjelly"
 			reagentcolor = "#801E28"
+		if("Digestive acid")
+			generated_reagents = list("stomacid" = 1)
+			reagent_name = "digestive acid"
+			gen_amount = 1
+			gen_cost = 1
+			reagentid = "stomacid"
+			reagentcolor = "#664330"
+		if("Diluted digestive acid")
+			generated_reagents = list("diet_stomacid" = 1)
+			reagent_name = "diluted digestive acid"
+			gen_amount = 1
+			gen_cost = 1
+			reagentid = "diet_stomacid"
+			reagentcolor = "#664330"
+		if("Space cleaner")
+			generated_reagents = list("cleaner" = 1)
+			reagent_name = "space cleaner"
+			gen_amount = 1
+			gen_cost = 10
+			reagentid = "cleaner"
+			reagentcolor = "#A5F0EE"
+		if("Lube")
+			generated_reagents = list("lube" = 1)
+			reagent_name = "lube"
+			gen_amount = 1
+			gen_cost = 10
+			reagentid = "lube"
+			reagentcolor = "#009CA8"
+		if("Biomass")
+			generated_reagents = list("biomass" = 1)
+			reagent_name = "biomass"
+			gen_amount = 1
+			gen_cost = 10
+			reagentid = "biomass"
+			reagentcolor = "#DF9FBF"
 
 /////////////////////// FULLNESS MESSAGES //////////////////////
 
@@ -345,3 +467,17 @@
 	if(to_update)
 		updateVRPanels()
 /////////////////////////// CHOMP PCL END ///////////////////////////
+
+/obj/belly/proc/update_internal_overlay()
+	for(var/A in contents)
+		if(isliving(A))
+			vore_fx(A,1)
+
+/obj/belly/deserialize(var/list/data)
+	..()
+	STOP_PROCESSING(SSbellies, src)
+	STOP_PROCESSING(SSobj, src)
+	if(speedy_mob_processing)
+		START_PROCESSING(SSobj, src)
+	else
+		START_PROCESSING(SSbellies, src)

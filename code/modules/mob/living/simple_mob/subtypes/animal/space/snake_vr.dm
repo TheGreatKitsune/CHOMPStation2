@@ -31,7 +31,7 @@
 	maxHealth = 15
 	health = 15
 
-	movement_cooldown = 8 // SLOW-ASS MUTHAFUCKA, I hope.
+	movement_cooldown = 3 // SLOW-ASS MUTHAFUCKA, I hope.
 
 	response_help  = "pets"
 	response_disarm = "shoos"
@@ -46,6 +46,8 @@
 
 	say_list_type = /datum/say_list/snake
 	ai_holder_type = /datum/ai_holder/simple_mob/passive
+	
+	can_be_drop_prey = FALSE //CHOMP Add
 
 /datum/say_list/snake
 	emote_hear = list("hisses")

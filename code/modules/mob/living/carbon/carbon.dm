@@ -131,6 +131,7 @@
 		if(species.emp_sensitivity & EMP_DEAFEN)
 			src.ear_damage += rand(0,deafen_dur) //this will heal pretty quickly, but spamming them at someone could cause serious damage
 			src.ear_deaf = max(src.ear_deaf,deafen_dur)
+			src.deaf_loop.start() // CHOMPStation Add: Ear Ringing/Deafness
 		if(species.emp_sensitivity & EMP_CONFUSE)
 			if(confuse_dur >= 1)
 				to_chat(src, "<span class='danger'>Oh god, everything's spinning!</span>")
@@ -236,7 +237,7 @@
 					status += "MISSING"
 				if(org.status & ORGAN_MUTATED)
 					status += "weirdly shapen"
-				if(org.dislocated == 2)
+				if(org.dislocated == 1) //VOREStation Edit Bugfix
 					status += "dislocated"
 				if(org.status & ORGAN_BROKEN)
 					status += "hurts when touched"
@@ -430,6 +431,10 @@
 	else
 		chem_effects[effect] = magnitude
 
+/mob/living/carbon/proc/remove_chemical_effect(var/effect, var/magnitude)
+	if(effect in chem_effects)
+		chem_effects[effect] = magnitude ? max(0,chem_effects[effect]-magnitude) : 0
+
 /mob/living/carbon/get_default_language()
 	if(default_language)
 		if(can_speak(default_language))
@@ -446,6 +451,8 @@
 	return 0
 
 /mob/living/carbon/can_feel_pain(var/check_organ)
+	if(!species) //CHOMPEdit
+		return 0
 	if(isSynthetic())
 		return 0
 	return !(species.flags & NO_PAIN)
