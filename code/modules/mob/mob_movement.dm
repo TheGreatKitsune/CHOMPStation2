@@ -159,8 +159,8 @@
 
 	// We're still cooling down from the last move
 	if(!my_mob.checkMoveCooldown())
+		DEBUG_INPUT("--------")
 		return
-	DEBUG_INPUT("--------")
 	next_move_dir_add = 0	// This one I *think* exists so you can tap move and it will move even if delay isn't quite up.
 	next_move_dir_sub = 0 	// I'm not really sure why next_move_dir_sub even exists.
 
@@ -355,6 +355,10 @@
 			if(mob.check_holy(T))
 				to_chat(mob, "<span class='warning'>You cannot get past holy grounds while you are in this plane of existence!</span>")
 				return
+			//CHOMPEdit start - add ability to block incorporeal movement for nonghosts
+			else if(!istype(mob, /mob/observer/dead) && T.blocks_nonghost_incorporeal)
+				return
+			//CHOMPEdit end
 			else
 				mob.forceMove(get_step(mob, direct))
 				mob.dir = direct

@@ -39,7 +39,7 @@
 
 	universal_understand = 1
 
-	movement_cooldown = 1
+	movement_cooldown = -1
 
 	melee_damage_lower = 15
 	melee_damage_upper = 20
@@ -83,6 +83,7 @@
 
 	var/instinct	// The points used by Kururaks to decide Who Is The Boss
 	var/obey_pack_rule = TRUE	// Decides if the Kururak will automatically assign itself to follow the one with the highest instinct.
+	
 
 /datum/say_list/kururak
 	speak = list("Kurr?","|R|rrh..", "Ksss...")

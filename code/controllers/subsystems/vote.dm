@@ -79,7 +79,7 @@ SUBSYSTEM_DEF(vote)
 		if(transfer_votes / total_votes > 0.7)
 			greatest_votes = transfer_votes
 			. = list("Initiate Crew Transfer")
-		else 
+		else
 			greatest_votes = extend_votes
 			. = list("Extend the Shift")
 	else
@@ -233,7 +233,7 @@ SUBSYSTEM_DEF(vote)
 					if(ticker.current_state <= GAME_STATE_SETTING_UP)
 						to_chat(initiator_key, "The crew transfer button has been disabled!")
 						return 0
-				question = "Your PDA beeps with a message from Central. Would you like an additional hour to finish ongoing projects?" //Yawn Wider Edit //CHOMP EDIT: Changed to 'one' hour.
+				question = "Your PDA beeps with a message from Central. Would you like an additional hour to finish ongoing projects? (OOC Notice: Transfer votes must have a majority (70%) of all votes to initiate transfer.)"  //Yawn Wider Edit //CHOMP EDIT: Changed to 'one' hour. Add notice stating transfer must contain 70% of total vote.
 				choices.Add("Initiate Crew Transfer", "Extend the Shift")  //VOREStation Edit
 			if(VOTE_ADD_ANTAGONIST)
 				if(!config.allow_extra_antags || ticker.current_state >= GAME_STATE_SETTING_UP)
@@ -244,11 +244,11 @@ SUBSYSTEM_DEF(vote)
 						choices.Add(antag.role_text)
 				choices.Add("None")
 			if(VOTE_CUSTOM)
-				question = sanitizeSafe(input(usr, "What is the vote for?") as text|null)
+				question = sanitizeSafe(tgui_input_text(usr, "What is the vote for?"))
 				if(!question)
 					return 0
 				for(var/i = 1 to 10)
-					var/option = capitalize(sanitize(input(usr, "Please enter an option or hit cancel to finish") as text|null))
+					var/option = capitalize(sanitize(tgui_input_text(usr, "Please enter an option or hit cancel to finish")))
 					if(!option || mode || !usr.client)
 						break
 					choices.Add(option)
@@ -315,7 +315,7 @@ SUBSYSTEM_DEF(vote)
 
 		. += "</table><hr>"
 		if(admin)
-			. += "(<a href='?src=\ref[src];vote=cancel'>Cancel Vote</a>) "
+			. += "(<a href='?src=\ref[src];[HrefToken()];vote=cancel'>Cancel Vote</a>) "
 	else
 		. += "<h2>Start a vote:</h2><hr><ul><li>"
 		if(admin || config.allow_vote_restart)
@@ -330,7 +330,7 @@ SUBSYSTEM_DEF(vote)
 			. += "<font color='grey'>Crew Transfer (Disallowed)</font>"
 
 		if(admin)
-			. += "\t(<a href='?src=\ref[src];vote=toggle_restart'>[config.allow_vote_restart ? "Allowed" : "Disallowed"]</a>)"
+			. += "\t(<a href='?src=\ref[src];[HrefToken()];vote=toggle_restart'>[config.allow_vote_restart ? "Allowed" : "Disallowed"]</a>)"
 		. += "</li><li>"
 
 		if(admin || config.allow_vote_mode)
@@ -339,7 +339,7 @@ SUBSYSTEM_DEF(vote)
 			. += "<font color='grey'>GameMode (Disallowed)</font>"
 
 		if(admin)
-			. += "\t(<a href='?src=\ref[src];vote=toggle_gamemode'>[config.allow_vote_mode ? "Allowed" : "Disallowed"]</a>)"
+			. += "\t(<a href='?src=\ref[src];[HrefToken()];vote=toggle_gamemode'>[config.allow_vote_mode ? "Allowed" : "Disallowed"]</a>)"
 		. += "</li><li>"
 
 		if(!antag_add_failed && config.allow_extra_antags)
@@ -349,7 +349,7 @@ SUBSYSTEM_DEF(vote)
 		. += "</li>"
 
 		if(admin)
-			. += "<li><a href='?src=\ref[src];vote=custom'>Custom</a></li>"
+			. += "<li><a href='?src=\ref[src];[HrefToken()];vote=custom'>Custom</a></li>"
 		. += "</ul><hr>"
 
 	. += "<a href='?src=\ref[src];vote=close' style='position:absolute;right:50px'>Close</a></body></html>"

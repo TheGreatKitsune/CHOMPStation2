@@ -80,6 +80,8 @@
 	var/sel_mode = 1 //index of the currently selected mode
 	var/list/firemodes = list()
 
+	var/reload_time = 1		//Base reload time in seconds
+
 	//aiming system stuff
 	var/keep_aim = 1 	//1 for keep shooting until aim is lowered
 						//0 for one bullet after tarrget moves and aim is lowered
@@ -668,6 +670,12 @@
 		if(!isnull(M.accuracy_dispersion))
 			P.dispersion = max(P.dispersion + M.accuracy_dispersion, 0)
 
+	if(ishuman(user))
+		var/mob/living/carbon/human/H = user
+		if(H.species)
+			P.accuracy += H.species.gun_accuracy_mod
+			P.dispersion = max(P.dispersion + H.species.gun_accuracy_dispersion_mod, 0)
+
 //does the actual launching of the projectile
 /obj/item/weapon/gun/proc/process_projectile(obj/projectile, mob/user, atom/target, var/target_zone, var/params=null)
 	var/obj/item/projectile/P = projectile
@@ -804,8 +812,8 @@
 		user.hud_used.remove_ammo_hud(user, src)
 	
 	return ..()
-	
-/obj/item/weapon/gun/dropped(mob/living/user) // Ditto as above, we remove the HUD. Pending porting TGMC code to clean up this fucking nightmare of spaghetti. 
+
+/obj/item/weapon/gun/dropped(mob/living/user) // Ditto as above, we remove the HUD. Pending porting TGMC code to clean up this fucking nightmare of spaghetti.
 	user.hud_used.remove_ammo_hud(user, src)
 	
 	..()

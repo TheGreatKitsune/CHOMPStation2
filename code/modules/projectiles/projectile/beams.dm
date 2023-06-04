@@ -49,19 +49,59 @@
 	tracer_type = /obj/effect/projectile/tracer/laser_blue
 	impact_type = /obj/effect/projectile/impact/laser_blue
 
+/obj/item/projectile/beam/weaklaser/ion
+	damage_type = ELECTROMAG
+	light_color = "#00CCFF"
+	muzzle_type = /obj/effect/projectile/muzzle/laser_em
+	tracer_type = /obj/effect/projectile/tracer/laser_em
+	impact_type = /obj/effect/projectile/impact/laser_em
+
 /obj/item/projectile/beam/smalllaser
 	damage = 25
 	hud_state = "laser"
+
+/obj/item/projectile/beam/smalllaser/ion
+	damage_type = ELECTROMAG
+	light_color = "#00CCFF"
+	muzzle_type = /obj/effect/projectile/muzzle/laser_em
+	tracer_type = /obj/effect/projectile/tracer/laser_em
+	impact_type = /obj/effect/projectile/impact/laser_em
 
 /obj/item/projectile/beam/burstlaser
 	damage = 30
 	armor_penetration = 10
 	hud_state = "laser"
 
+/obj/item/projectile/beam/burstlaser/ion
+	damage_type = ELECTROMAG
+	light_color = "#00CCFF"
+	muzzle_type = /obj/effect/projectile/muzzle/laser_em
+	tracer_type = /obj/effect/projectile/tracer/laser_em
+	impact_type = /obj/effect/projectile/impact/laser_em
+
 /obj/item/projectile/beam/midlaser
 	damage = 40
 	armor_penetration = 10
 	hud_state = "laser"
+
+/obj/item/projectile/beam/midlaser/ion
+	damage_type = ELECTROMAG
+	light_color = "#00CCFF"
+	muzzle_type = /obj/effect/projectile/muzzle/laser_em
+	tracer_type = /obj/effect/projectile/tracer/laser_em
+	impact_type = /obj/effect/projectile/impact/laser_em
+
+/obj/item/projectile/beam/mininglaser
+	name = "pulsating laser"
+	damage = 10
+	armor_penetration = 20
+	fire_sound = 'sound/weapons/eluger.ogg'
+
+	excavation_amount = 100
+
+	muzzle_type = /obj/effect/projectile/muzzle/emitter
+	tracer_type = /obj/effect/projectile/tracer/emitter
+	impact_type = /obj/effect/projectile/impact/emitter
 
 /obj/item/projectile/beam/heavylaser
 	name = "heavy laser"
@@ -89,6 +129,13 @@
 	muzzle_type = /obj/effect/projectile/muzzle/emitter
 	tracer_type = /obj/effect/projectile/tracer/emitter
 	impact_type = /obj/effect/projectile/impact/emitter
+
+/obj/item/projectile/beam/heavylaser/ion
+	damage_type = ELECTROMAG
+	light_color = "#00CCFF"
+	muzzle_type = /obj/effect/projectile/muzzle/laser_em
+	tracer_type = /obj/effect/projectile/tracer/laser_em
+	impact_type = /obj/effect/projectile/impact/laser_em
 
 /obj/item/projectile/beam/heavylaser/cannon
 	damage = 80
@@ -330,6 +377,26 @@
 /obj/item/projectile/beam/shock/weak
 	damage = 5
 	agony = 10
+
+
+//
+// Projectile Beam Definitions
+//
+
+/obj/item/projectile/beam/pointdefense
+	name = "point defense salvo"
+	icon_state = "laser"
+	damage = 15
+	damage_type = ELECTROCUTE //You should be safe inside a voidsuit
+	sharp = FALSE //"Wide" spectrum beam
+	light_color = COLOR_GOLD
+
+	excavation_amount = 200 // Good at shooting rocks
+
+	muzzle_type = /obj/effect/projectile/muzzle/pointdefense
+	tracer_type = /obj/effect/projectile/tracer/pointdefense
+	impact_type = /obj/effect/projectile/impact/pointdefense
+
 
 /obj/item/projectile/beam/precursor //CHOMPedit added Precursor beam
 	name = "precursor beam"

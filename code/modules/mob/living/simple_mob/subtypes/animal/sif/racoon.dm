@@ -34,7 +34,7 @@
 
 	universal_understand = 1
 
-	movement_cooldown = 0
+	movement_cooldown = -1
 
 	melee_damage_lower = 5
 	melee_damage_upper = 15
@@ -68,6 +68,12 @@
 	var/obj/item/clothing/head/hat = null // The hat the Sakimm may be wearing.
 	var/list/friend_loot_list = list(/obj/item/weapon/coin)	// What will make this animal non-hostile if held?
 	var/randomize_size = TRUE
+	can_be_drop_prey = TRUE //CHOMP Add
+	// CHOMPAdd: Pain/Death Sounds
+	species_sounds = "Raccoon"
+	pain_emote_1p = list("chitter")
+	pain_emote_3p = list("chitters")
+
 
 /mob/living/simple_mob/animal/sif/sakimm/verb/remove_hat()
 	set name = "Remove Hat"

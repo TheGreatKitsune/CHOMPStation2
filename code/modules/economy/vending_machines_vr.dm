@@ -7,6 +7,7 @@
 	products += list(/obj/item/weapon/gun/energy/taser = 8,/obj/item/weapon/gun/energy/stunrevolver = 4,
 					/obj/item/weapon/reagent_containers/spray/pepper = 6,/obj/item/taperoll/police = 6,
 					/obj/item/clothing/glasses/omnihud/sec = 6)
+	contraband += list(/obj/item/weapon/implanter/compliance = 1)
 	..()
 
 /obj/machinery/vending/tool/New()
@@ -635,7 +636,19 @@
 					/obj/item/clothing/mask/bandana/gold = 5,
 					/obj/item/clothing/mask/bandana/green = 5,
 					/obj/item/clothing/mask/bandana/red = 5,
-					/obj/item/clothing/mask/surgical = 5)
+					/obj/item/clothing/mask/surgical = 5,
+					/obj/item/clothing/head/ushanka/neo_ushanka = 5,
+					/obj/item/clothing/head/ushanka/neo_ushanka_blue = 5,
+					/obj/item/clothing/head/papakha = 5,
+					/obj/item/clothing/head/papakha_white = 5,
+					/obj/item/clothing/accessory/pride/bi = 5,
+					/obj/item/clothing/accessory/pride/trans = 5,
+					/obj/item/clothing/accessory/pride/ace = 5,
+					/obj/item/clothing/accessory/pride/enby = 5,
+					/obj/item/clothing/accessory/pride/pan = 5,
+					/obj/item/clothing/accessory/pride/lesbian = 5,
+					/obj/item/clothing/accessory/pride/intersex = 5,
+					/obj/item/clothing/accessory/pride/vore = 5)
 	prices = list(/obj/item/clothing/accessory = 50,
 					/obj/item/clothing/accessory/armband/med/color = 50,
 					/obj/item/clothing/accessory/asymmetric = 50,
@@ -752,9 +765,18 @@
 					/obj/item/clothing/mask/bandana/gold = 50,
 					/obj/item/clothing/mask/bandana/green = 50,
 					/obj/item/clothing/mask/bandana/red = 50,
-					/obj/item/clothing/mask/surgical = 50)
+					/obj/item/clothing/mask/surgical = 50,
+					/obj/item/clothing/accessory/pride/bi = 50,
+					/obj/item/clothing/accessory/pride/trans = 50,
+					/obj/item/clothing/accessory/pride/ace = 50,
+					/obj/item/clothing/accessory/pride/enby = 50,
+					/obj/item/clothing/accessory/pride/pan = 50,
+					/obj/item/clothing/accessory/pride/lesbian = 50,
+					/obj/item/clothing/accessory/pride/intersex = 50,
+					/obj/item/clothing/accessory/pride/vore = 50)
 	premium = list(/obj/item/weapon/bedsheet/rainbow = 1)
-	contraband = list(/obj/item/clothing/mask/gas/clown_hat = 1)
+	contraband = list(/obj/item/clothing/mask/gas/clown_hat = 1,
+	                   /obj/item/clothing/accessory/collar/collarplanet_earth = 5)
 
 /obj/machinery/vending/loadout/clothing
 	name = "General Jump"
@@ -908,6 +930,10 @@
 					/obj/item/clothing/under/suit_jacket/checkered/skirt = 5,
 					/obj/item/clothing/under/suit_jacket/tan = 5,
 					/obj/item/clothing/under/suit_jacket/tan/skirt = 5,
+					/obj/item/clothing/under/rank/neo_civvie_gorka = 5,
+					/obj/item/clothing/suit/storage/toggle/labcoat/neo_leather = 5,
+					/obj/item/clothing/suit/neo_gorka = 5,
+					/obj/item/clothing/suit/storage/toggle/labcoat/neo_civ_dep = 5,
 					/obj/item/clothing/under/scratch = 5,
 					/obj/item/clothing/under/scratch/skirt = 5,
 					/obj/item/clothing/under/sundress = 5,
@@ -1114,7 +1140,16 @@
 					/obj/item/clothing/under/tropical/pink = 50,
 					/obj/item/clothing/under/tropical/blue = 50)
 	premium = list(/obj/item/clothing/under/color/rainbow = 1)
-	contraband = list(/obj/item/clothing/under/rank/clown = 1)
+	contraband = list(/obj/item/clothing/under/rank/clown = 1,
+					/obj/item/clothing/under/rank/neo_suspect_turtleneck = 1,
+					/obj/item/clothing/under/rank/neo_suspect_turtleskirt = 1,
+					/obj/item/clothing/under/rank/neo_suspect_turtleneck_blue = 1,
+					/obj/item/clothing/under/rank/neo_suspect_turtleskirt_blue = 1,
+					/obj/item/clothing/under/rank/neo_suspicious_turtleneck = 1,
+					/obj/item/clothing/under/rank/neo_suspicious_turtleskirt = 1,
+					/obj/item/clothing/under/rank/neo_suspect_overalls = 1,
+					/obj/item/clothing/under/rank/neo_suspect_overalls_skirt = 1,
+					/obj/item/clothing/head/soft/neo_softcap = 2)
 
 //////////////////START OF CHIPS CO. VENDORS//////////////////
 
@@ -1224,7 +1259,10 @@
 					/obj/item/weapon/pack/spaceball = 10,
 					/obj/item/weapon/storage/pill_bottle/dice = 5,
 					/obj/item/weapon/storage/pill_bottle/dice_nerd = 5,
-					/obj/item/weapon/melee/umbrella/random = 10)
+					/obj/item/weapon/melee/umbrella/random = 10,
+					/obj/item/weapon/picnic_blankets_carried = 10,
+					/obj/item/weapon/deck/schnapsen = 5,
+					/obj/item/weapon/deck/egy = 5)
 	prices = list(/obj/item/weapon/cane = 100,
 					/obj/item/weapon/pack/cardemon = 100,
 					/obj/item/weapon/deck/holder = 100,
@@ -1235,9 +1273,13 @@
 					/obj/item/weapon/pack/spaceball = 100,
 					/obj/item/weapon/storage/pill_bottle/dice = 100,
 					/obj/item/weapon/storage/pill_bottle/dice_nerd = 100,
-					/obj/item/weapon/melee/umbrella/random = 100)
+					/obj/item/weapon/melee/umbrella/random = 100,
+					/obj/item/weapon/picnic_blankets_carried = 100,
+					/obj/item/weapon/deck/schnapsen = 100,
+					/obj/item/weapon/deck/egy = 100)
 	premium = list(/obj/item/toy/bosunwhistle = 1)
-	contraband = list(/obj/item/toy/katana = 1)
+	contraband = list(/obj/item/toy/katana = 1,
+					/obj/item/weapon/dice/loaded = 5)
 
 /obj/machinery/vending/loadout/overwear
 	name = "Big D's Best"
@@ -1502,7 +1544,19 @@
 					/obj/item/clothing/gloves/combat/knight_costume = 3,
 					/obj/item/clothing/gloves/combat/knight_costume/brown = 3,
 					/obj/item/clothing/shoes/knight_costume = 3,
-					/obj/item/clothing/shoes/knight_costume/black = 3)
+					/obj/item/clothing/shoes/knight_costume/black = 3,
+					/obj/item/clothing/suit/storage/hooded/foodcostume/hotdog = 3,
+					/obj/item/clothing/suit/storage/hooded/foodcostume/turnip = 3,
+					/obj/item/clothing/under/dress/singer = 3,
+					/obj/item/clothing/shoes/boots/singer = 3,
+					/obj/item/clothing/under/dress/singer/yellow = 3,
+					/obj/item/clothing/shoes/boots/singer/yellow = 3,
+					/obj/item/clothing/under/dress/maid/under_maid = 3,
+					/obj/item/clothing/accessory/maid_neck = 3,
+					/obj/item/clothing/accessory/maid_arms = 3,
+					/obj/item/clothing/head/headband/maid/modern = 3,
+					/obj/item/clothing/accessory/maidcorset = 3,
+					/obj/item/clothing/suit/shrine_maiden = 3)
 	prices = list(/obj/item/clothing/suit/storage/hooded/costume/carp = 200,
 					/obj/item/clothing/suit/storage/hooded/costume/carp = 200,
 					/obj/item/clothing/suit/chickensuit = 200,
@@ -1567,7 +1621,19 @@
 					/obj/item/clothing/gloves/combat/knight_costume = 200,
 					/obj/item/clothing/gloves/combat/knight_costume/brown = 200,
 					/obj/item/clothing/shoes/knight_costume = 200,
-					/obj/item/clothing/shoes/knight_costume/black = 200)
+					/obj/item/clothing/shoes/knight_costume/black = 200,
+					/obj/item/clothing/suit/storage/hooded/foodcostume/hotdog = 200,
+					/obj/item/clothing/suit/storage/hooded/foodcostume/turnip = 200,
+					/obj/item/clothing/under/dress/singer = 200,
+					/obj/item/clothing/shoes/boots/singer = 50,
+					/obj/item/clothing/under/dress/singer/yellow = 200,
+					/obj/item/clothing/shoes/boots/singer/yellow = 50,
+					/obj/item/clothing/under/dress/maid/under_maid = 200,
+					/obj/item/clothing/accessory/maid_neck = 25,
+					/obj/item/clothing/accessory/maid_arms = 25,
+					/obj/item/clothing/head/headband/maid/modern = 25,
+					/obj/item/clothing/accessory/maidcorset = 25,
+					/obj/item/clothing/suit/shrine_maiden = 200)
 	premium = list(/obj/item/clothing/suit/imperium_monk = 3,
 					/obj/item/clothing/suit/barding/agatha = 2,
 					/obj/item/clothing/suit/barding/alt_agatha = 2,
@@ -1726,7 +1792,17 @@
 					/obj/item/clothing/gloves/combat/knight_costume = 3,
 					/obj/item/clothing/gloves/combat/knight_costume/brown = 3,
 					/obj/item/clothing/shoes/knight_costume = 3,
-					/obj/item/clothing/shoes/knight_costume/black = 3)
+					/obj/item/clothing/shoes/knight_costume/black = 3,
+					/obj/item/clothing/under/dress/singer = 3,
+					/obj/item/clothing/shoes/boots/singer = 3,
+					/obj/item/clothing/under/dress/singer/yellow = 3,
+					/obj/item/clothing/shoes/boots/singer/yellow = 3,
+					/obj/item/clothing/under/dress/maid/under_maid = 3,
+					/obj/item/clothing/accessory/maid_neck = 3,
+					/obj/item/clothing/accessory/maid_arms = 3,
+					/obj/item/clothing/head/headband/maid/modern = 3,
+					/obj/item/clothing/accessory/maidcorset = 3,
+					/obj/item/clothing/suit/shrine_maiden = 3)
 
 // Event Loadout Vending Machines Start
 
@@ -2514,7 +2590,17 @@
 					/obj/item/clothing/suit/barding/mason = 2,
 					/obj/item/clothing/suit/drake_cloak = 2,
 					/obj/item/clothing/head/syndicatefake = 1,
-					/obj/item/clothing/suit/syndicatefake = 1
+					/obj/item/clothing/suit/syndicatefake = 1,
+					/obj/item/clothing/under/dress/singer = 3,
+					/obj/item/clothing/shoes/boots/singer = 3,
+					/obj/item/clothing/under/dress/singer/yellow = 3,
+					/obj/item/clothing/shoes/boots/singer/yellow = 3,
+					/obj/item/clothing/under/dress/maid/under_maid = 3,
+					/obj/item/clothing/accessory/maid_neck = 3,
+					/obj/item/clothing/accessory/maid_arms = 3,
+					/obj/item/clothing/head/headband/maid/modern = 3,
+					/obj/item/clothing/accessory/maidcorset = 3,
+					/obj/item/clothing/suit/shrine_maiden = 3
 					)
 
 // Event Loadout Vending Machines End
@@ -2526,7 +2612,7 @@
 	desc = "Food made by dogs!"
 	product_ads = "EAT FOOD!!!;Awooooooooooooooo!~;Made by actual dogs!;Now with twenty percent more taste!!!"
 	icon = 'icons/obj/vending.dmi'
-	icon_state = "fridge_food"
+	icon_state = "hotfood"
 	products = list(/obj/item/weapon/tray = 50,
 					/obj/item/weapon/material/kitchen/utensil/fork = 50,
 					/obj/item/weapon/material/knife/plastic = 50,
@@ -3014,7 +3100,7 @@
 	desc = "Food made by dogs!"
 	product_ads = "EAT FOOD!!!;Awooooooooooooooo!~;Made by actual dogs!;Now with twenty percent more taste!!!"
 	icon = 'icons/obj/vending.dmi'
-	icon_state = "fridge_food"
+	icon_state = "hotfood"
 	products = list(/obj/item/weapon/tray = 50,
 					/obj/item/weapon/material/kitchen/utensil/fork = 50,
 					/obj/item/weapon/material/knife/plastic = 50,
@@ -3410,7 +3496,7 @@
 	desc = "Food made by dogs!"
 	product_ads = "EAT FOOD!!!;Awooooooooooooooo!~;Made by actual dogs!;Now with twenty percent more taste!!!"
 	icon = 'icons/obj/vending.dmi'
-	icon_state = "fridge_food"
+	icon_state = "hotfood"
 	products = list(/obj/item/weapon/reagent_containers/food/snacks/bearmeat = 10,
 					/obj/item/weapon/reagent_containers/food/snacks/carpmeat = 10,
 					/obj/item/weapon/reagent_containers/food/snacks/carpmeat/fish = 10,
@@ -3517,3 +3603,26 @@
 					/obj/item/weapon/reagent_containers/food/drinks/cans/root_beer = 1)
 	idle_power_usage = 211 //refrigerator - believe it or not, this is actually the average power consumption of a refrigerated vending machine according to NRCan.
 	vending_sound = "machines/vending/vending_cans.ogg"
+
+/obj/machinery/vending/altevian
+	name = "Altevian Imported Meals"
+	desc = "A vending machine containing imported foods from Altevian Hegemony. Delicious and nutritious. No natural ingridients guaranteed!"
+	icon = 'icons/obj/vending_vr.dmi'
+	icon_state = "rattevendor"
+	product_slogans = "Spacer's choice!;Voidborn food for voidborn people!;Most processed foods ever!"
+	product_ads = "Perfectly edible!;Squeaky clean foods!;Cheesed to meet you!;Made for spacers, by spacers, of spacers!"
+	products = list(/obj/item/weapon/reagent_containers/food/snacks/ratprotein = 15,
+					/obj/item/weapon/reagent_containers/food/snacks/ratveggies = 15,
+					/obj/item/weapon/reagent_containers/food/snacks/ratliquid = 15,
+					/obj/item/weapon/reagent_containers/food/snacks/ratfruitcake = 15,
+					/obj/item/weapon/reagent_containers/food/snacks/ratpackburger = 8,
+					/obj/item/weapon/reagent_containers/food/snacks/ratpackcheese = 8,
+					/obj/item/weapon/reagent_containers/food/snacks/ratpackturkey = 2)
+
+	prices = list(/obj/item/weapon/reagent_containers/food/snacks/ratprotein = 8,
+					/obj/item/weapon/reagent_containers/food/snacks/ratveggies = 8,
+					/obj/item/weapon/reagent_containers/food/snacks/ratliquid = 8,
+					/obj/item/weapon/reagent_containers/food/snacks/ratfruitcake = 8,
+					/obj/item/weapon/reagent_containers/food/snacks/ratpackburger = 10,
+					/obj/item/weapon/reagent_containers/food/snacks/ratpackcheese = 10,
+					/obj/item/weapon/reagent_containers/food/snacks/ratpackturkey = 200)

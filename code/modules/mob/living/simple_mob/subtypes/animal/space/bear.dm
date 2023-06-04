@@ -12,7 +12,7 @@
 	maxHealth = 125
 	health = 125
 
-	movement_cooldown = 0.5 SECONDS
+	movement_cooldown = -1
 
 	melee_damage_lower = 15
 	melee_damage_upper = 35
@@ -26,6 +26,8 @@
 	meat_amount = 8
 
 	say_list_type = /datum/say_list/bear
+	
+	can_be_drop_prey = FALSE //CHOMP Add
 
 /datum/say_list/bear
 	speak = list("RAWR!","Rawr!","GRR!","Growl!")

@@ -110,6 +110,7 @@
 
 /datum/disease2/effect/deaf/activate(var/mob/living/carbon/mob,var/multiplier)
 	mob.ear_deaf += 20
+	mob.deaf_loop.start(skip_start_sound = TRUE) // CHOMPStation Add: Ear Ringing/Deafness
 
 /datum/disease2/effect/monkey
 	name = "Genome Regression"
@@ -288,6 +289,7 @@
 
 /datum/disease2/effect/minordeaf/activate(var/mob/living/carbon/mob,var/multiplier)
 	mob.ear_deaf = 5
+	mob.deaf_loop.start(skip_start_sound = TRUE) // CHOMPStation Add: Ear Ringing/Deafness
 
 /datum/disease2/effect/giggle
 	name = "Uncontrolled Laughter"
@@ -337,7 +339,7 @@
 	if(c_data)
 		data = c_data
 	else
-		data = pick("bicaridine", "kelotane", "anti_toxin", "inaprovaline", "space_drugs", "sugar",
+		data = pick("bicaridine", "kelotane", "anti_toxin", "inaprovaline", "bliss", "sugar",
 					"tramadol", "dexalin", "cryptobiolin", "impedrezene", "hyperzine", "ethylredoxrazine",
 					"mindbreaker", "glucose")
 	var/datum/reagent/R = SSchemistry.chemical_reagents[data]

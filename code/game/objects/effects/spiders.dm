@@ -57,9 +57,12 @@
 	health -= Proj.get_structure_damage()
 	healthcheck()
 
+/obj/effect/spider/proc/die()
+	qdel(src)
+
 /obj/effect/spider/proc/healthcheck()
 	if(health <= 0)
-		qdel(src)
+		die()
 
 /obj/effect/spider/fire_act(datum/gas_mixture/air, exposed_temperature, exposed_volume)
 	if(exposed_temperature > 300 + T0C)
@@ -129,15 +132,15 @@
 		qdel(src)
 
 /obj/effect/spider/eggcluster/small
-	spiders_min = 1
-	spiders_max = 3
+	spiders_min = 2 //CHOMP Edit
+	spiders_max = 6 //CHOMP Edit
 
 /obj/effect/spider/eggcluster/small/frost
 	spider_type = /obj/effect/spider/spiderling/frost
 
 /obj/effect/spider/eggcluster/royal
 	spiders_min = 2
-	spiders_max = 5
+	spiders_max = 6 //CHOMP Edit
 	spider_type = /obj/effect/spider/spiderling/varied
 
 /obj/effect/spider/spiderling
@@ -148,7 +151,7 @@
 	layer = HIDING_LAYER
 	health = 3
 	var/last_itch = 0
-	var/amount_grown = -1
+	var/amount_grown = 0
 	var/obj/machinery/atmospherics/unary/vent_pump/entry_vent
 	var/travelling_in_vent = 0
 	var/list/grow_as = list(/mob/living/simple_mob/animal/giant_spider, /mob/living/simple_mob/animal/giant_spider/nurse, /mob/living/simple_mob/animal/giant_spider/hunter)
@@ -187,16 +190,17 @@
 	else
 		..()
 
-/obj/effect/spider/spiderling/proc/die()
+/obj/effect/spider/spiderling/die()
 	visible_message("<span class='alert'>[src] dies!</span>")
 	new /obj/effect/decal/cleanable/spiderling_remains(src.loc)
-	qdel(src)
+	..()
 
 /obj/effect/spider/spiderling/healthcheck()
 	if(health <= 0)
 		die()
 
 /obj/effect/spider/spiderling/process()
+	healthcheck()
 	if(travelling_in_vent)
 		if(istype(src.loc, /turf))
 			travelling_in_vent = 0
@@ -265,7 +269,7 @@
 				walk_to(src, target_atom, 5)
 				if(prob(25))
 					src.visible_message("<span class='notice'>\The [src] skitters[pick(" away"," around","")].</span>")
-		else if(prob(5))
+		else if(amount_grown < 75 && prob(5))
 			//vent crawl!
 			for(var/obj/machinery/atmospherics/unary/vent_pump/v in view(7,src))
 				if(!v.welded)

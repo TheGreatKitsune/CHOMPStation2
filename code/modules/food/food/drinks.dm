@@ -13,6 +13,13 @@
 	possible_transfer_amounts = list(5,10,15,25,30)
 	volume = 50
 	var/trash = null
+	var/cant_open = 0
+	var/cant_chance = 0
+
+/obj/item/weapon/reagent_containers/food/drinks/Initialize()
+	. = ..()
+	if (prob(cant_chance))
+		cant_open = 1
 
 /obj/item/weapon/reagent_containers/food/drinks/on_reagent_change()
 	if (reagents.reagent_list.len > 0)
@@ -23,18 +30,18 @@
 			price_tag = null
 	return
 
-/obj/item/weapon/reagent_containers/food/drinks/proc/On_Consume(var/mob/M)
-	if(!usr)
-		usr = M
-	if(!reagents.total_volume)
+/obj/item/weapon/reagent_containers/food/drinks/proc/On_Consume(var/mob/M, var/mob/user, var/changed = FALSE)
+	if(!user)
+		user = M
+	if(!reagents.total_volume && changed)
 		M.visible_message("<span class='notice'>[M] finishes drinking \the [src].</span>","<span class='notice'>You finish drinking \the [src].</span>")
 		if(trash)
-			usr.drop_from_inventory(src)	//so icons update :[
+			user.drop_from_inventory(src)	//so icons update :[
 			if(ispath(trash,/obj/item))
-				var/obj/item/TrashItem = new trash(usr)
-				usr.put_in_hands(TrashItem)
+				var/obj/item/TrashItem = new trash(user)
+				user.put_in_hands(TrashItem)
 			else if(istype(trash,/obj/item))
-				usr.put_in_hands(trash)
+				user.put_in_hands(trash)
 			qdel(src)
 	return
 
@@ -46,10 +53,14 @@
 		open(user)
 
 /obj/item/weapon/reagent_containers/food/drinks/proc/open(mob/user)
-	playsound(src,"canopen", rand(10,50), 1)
-	GLOB.cans_opened_roundstat++
-	to_chat(user, "<span class='notice'>You open [src] with an audible pop!</span>")
-	flags |= OPENCONTAINER
+	if(!cant_open)
+		playsound(src,"canopen", rand(10,50), 1)
+		GLOB.cans_opened_roundstat++
+		to_chat(user, "<span class='notice'>You open [src] with an audible pop!</span>")
+		flags |= OPENCONTAINER
+	else
+		to_chat(user, "<span class='warning'>...wait a second, this one doesn't have a ring pull. It's not a <b>can</b>, it's a <b>can't!</b></span>")
+		name = "\improper can't of [initial(name)]"	//don't update the name until they try to open it
 
 /obj/item/weapon/reagent_containers/food/drinks/attack(mob/M as mob, mob/user as mob, def_zone)
 	if(force && !(flags & NOBLUDGEON) && user.a_intent == I_HURT)
@@ -73,8 +84,11 @@
 	if(!is_open_container())
 		to_chat(user, "<span class='notice'>You need to open [src]!</span>")
 		return 1
-	On_Consume(target,user)
-	return ..()
+	var/original_volume = reagents.total_volume
+	.=..()
+	var/changed = !(reagents.total_volume == original_volume)
+	On_Consume(target,user,changed)
+	return
 
 /obj/item/weapon/reagent_containers/food/drinks/standard_dispenser_refill(var/mob/user, var/obj/structure/reagent_dispensers/target)
 	if(!is_open_container())
@@ -97,6 +111,8 @@
 /obj/item/weapon/reagent_containers/food/drinks/examine(mob/user)
 	. = ..()
 	if(Adjacent(user))
+		if(cant_open)
+			. += "<span class='warning'>It doesn't have a ring pull!</span>"
 		if(!reagents?.total_volume)
 			. += "<span class='notice'>It is empty!</span>"
 		else if (reagents.total_volume <= volume * 0.25)
