@@ -3533,6 +3533,7 @@
 "url": "https://files.catbox.moe/8rn8uz.mp3",
 "title": "I Wupped Batman's Ass",
 "duration": 3270,
+"genre": "Miscellaneous",
 "artist": "Wesley Willis Fiasco",
 "secret": true,
 "lobby": false,
@@ -3596,7 +3597,7 @@
 "title" : "Peaceful Orbits",
 "artist" : "TeknoAXE",
 "secret": false,
-"lobby": true,
+"lobby": false,
 "jukebox": true,
 "genre": "Ambience"
 },
@@ -3606,7 +3607,7 @@
 "title" : "Passing Time in an Escape Pod",
 "artist" : "TeknoAXE",
 "secret": false,
-"lobby": true,
+"lobby": false,
 "jukebox": true,
 "genre": "Ambience"
 },
@@ -3974,6 +3975,7 @@
 "url": "https://files.catbox.moe/3h38kn.mp3",
 "title": "Among Us",
 "duration": 720,
+"artist": "Leonz",
 "genre": "Disco, Funk, Soul, and R&B",
 "secret": false,
 "lobby": false,
@@ -3983,6 +3985,7 @@
 "url": "https://files.catbox.moe/rqhxj1.mp3",
 "title": "Leggy Zone",
 "duration": 1470,
+"artist": "Binox",
 "genre": "Electronic",
 "secret": true,
 "lobby": false,
@@ -3992,6 +3995,7 @@
 "url": "https://files.catbox.moe/e6l6mw.mp3",
 "title": "Shop Theme",
 "duration": 8910,
+"artist": "Kazumi Totaka/Nintendo",
 "genre": "Electronic",
 "secret": false,
 "lobby": false,
@@ -4698,6 +4702,16 @@
 "genre": "Rock"
 },
 {
+"url": "https://files.catbox.moe/8r5d7q.mp3",
+"title": "Take me to Snurch (Snail Church)",
+"duration": 2370,
+"genre": "Pop",
+"artist": "fairyeiry",
+"secret": true,
+"lobby": false,
+"jukebox": true
+},
+{
 "url": "https://files.catbox.moe/2ozzmg.m4a",
 "title": "Charlie's Inferno",
 "duration": 2250,
@@ -4855,5 +4869,35 @@
 "secret": false,
 "lobby": false,
 "jukebox": true
+},
+{
+  "duration" : 3160,
+  "url" : "https://cdn.discordapp.com/attachments/734618349824114748/1114205889252048966/Anthem_Reprise.mp3",
+  "title" : "Anthem",
+  "artist" : "Boom Boom Satellites",
+  "secret": false,
+  "lobby": true,
+  "jukebox": true,
+  "genre": "Ambience"
+},
+{
+  "duration" : 6550,
+  "url" : "https://cdn.discordapp.com/attachments/734618349824114748/1114205889608552520/As_the_Snow_Leaves_the_Ground.mp3",
+  "title" : "As the Snow Leaves the Ground",
+  "artist" : "Beautumn",
+  "secret": false,
+  "lobby": true,
+  "jukebox": true,
+  "genre": "Ambience"
+},
+{
+  "duration" : 3420,
+  "url" : "https://cdn.discordapp.com/attachments/734618349824114748/1114205889986035842/Bsmnt.mp3",
+  "title" : "Bsmnt",
+  "artist" : "Kwajbasket",
+  "secret": false,
+  "lobby": true,
+  "jukebox": true,
+  "genre": "Ambience"
 }
 ]
