@@ -3,7 +3,7 @@
 	name = "wizard hat"
 	desc = "A pointy pixelated-looking hat, 0s and 1s dancing off the fabric"
 	icon_state = "redwizard"
-	armor = list(melee = 30, bullet = 30, laser = 65, energy = 65, bomb = 70, bio = 100, rad = 100)
+	armor = list(melee = 20, bullet = 20, laser = 60, energy = 60, bomb = 70, bio = 50, rad = 50)
 	siemens_coefficient = 0.1
 	cold_protection = HEAD
 	min_cold_protection_temperature = SPACE_HELMET_MIN_COLD_PROTECTION_TEMPERATURE
@@ -16,14 +16,41 @@
 	name = "wizard robes"
 	desc = "A silky robe with 0s and 1s flying off the seams."
 	icon_state = "redwizard"
-	armor = list(melee = 30, bullet = 30, laser = 65, energy = 65, bomb = 70, bio = 100, rad = 100)
+	armor = list(melee = 20, bullet = 20, laser = 60, energy = 60, bomb = 70, bio = 50, rad = 50)
 	siemens_coefficient = 0.1
 	cold_protection = UPPER_TORSO | LOWER_TORSO | LEGS | FEET | ARMS | HANDS
 	min_cold_protection_temperature = SPACE_SUIT_MIN_COLD_PROTECTION_TEMPERATURE
 	min_pressure_protection = 0 * ONE_ATMOSPHERE
 	max_pressure_protection = 3 * ONE_ATMOSPHERE
 	max_heat_protection_temperature = SPACE_SUIT_MAX_HEAT_PROTECTION_TEMPERATURE
+	allowed = list(/obj/item/weapon/gun,/obj/item/ammo_magazine,/obj/item/ammo_casing,/obj/item/weapon/melee/baton,/obj/item/weapon/melee/energy/sword,/obj/item/weapon/handcuffs,/obj/item/weapon/tank/emergency/oxygen)
 
+/obj/item/clothing/head/darkvrwizard
+	name = "wizard hat"
+	desc = "The hat holding the most attack and defense"
+	icon_state = "redwizard"
+	color = "#660066"
+	armor = list(melee = 70, bullet = 70, laser = 40, energy = 40, bomb = 90, bio = 70, rad = 70)
+	siemens_coefficient = 0.1
+	cold_protection = HEAD
+	min_cold_protection_temperature = SPACE_HELMET_MIN_COLD_PROTECTION_TEMPERATURE
+	min_pressure_protection = 0 * ONE_ATMOSPHERE
+	max_pressure_protection = 3 * ONE_ATMOSPHERE
+	max_heat_protection_temperature = SPACE_SUIT_MAX_HEAT_PROTECTION_TEMPERATURE
+
+
+/obj/item/clothing/suit/darkvrwizard
+	name = "wizard robes"
+	desc = "Robes holding the most attack and defense."
+	icon_state = "psyamp"
+	armor = list(melee = 70, bullet = 70, laser = 40, energy = 40, bomb = 90, bio = 70, rad = 70)
+	siemens_coefficient = 0.1
+	cold_protection = UPPER_TORSO | LOWER_TORSO | LEGS | FEET | ARMS | HANDS
+	min_cold_protection_temperature = SPACE_SUIT_MIN_COLD_PROTECTION_TEMPERATURE
+	min_pressure_protection = 0 * ONE_ATMOSPHERE
+	max_pressure_protection = 3 * ONE_ATMOSPHERE
+	max_heat_protection_temperature = SPACE_SUIT_MAX_HEAT_PROTECTION_TEMPERATURE
+	allowed = list(/obj/item/weapon/gun,/obj/item/ammo_magazine,/obj/item/ammo_casing,/obj/item/weapon/melee/baton,/obj/item/weapon/melee/energy/sword,/obj/item/weapon/handcuffs,/obj/item/weapon/tank/emergency/oxygen)
 
 //Candy section
 /obj/item/clothing/head/psy_crown/candycrown

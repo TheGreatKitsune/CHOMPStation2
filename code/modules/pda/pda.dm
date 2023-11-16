@@ -147,6 +147,10 @@ var/global/list/obj/item/device/pda/PDAs = list()
 				SPECIES_VR_TESHARI = 'icons/mob/species/teshari/pda_wrist.dmi',
 			)
 		if(7) icon = 'icons/obj/pda_slider.dmi'			//VOREStation edit
+		if(8)
+			icon = 'icons/obj/pda_vintage.dmi'
+			desc = "A vintage communication device. This device has been refitted for compatibility with modern messaging systems, ROM cartridges and ID cards. Despite its heavy modifications it does not feature voice communication."
+
 		else
 			icon = 'icons/obj/pda_old.dmi'
 			log_debug("Invalid switch for PDA, defaulting to old PDA icons. [pdachoice] chosen.")
@@ -463,7 +467,7 @@ var/global/list/obj/item/device/pda/PDAs = list()
 
 /obj/item/device/pda/Destroy()
 	PDAs -= src
-	if (src.id && prob(100) && !delete_id) //IDs are kept in 90% of the cases //VOREStation Edit - 100% of the cases, excpet when specified otherwise
+	if (src.id && !delete_id && src.id.loc == src) //CHOMPEdit
 		src.id.forceMove(get_turf(src.loc))
 	else
 		QDEL_NULL(src.id)

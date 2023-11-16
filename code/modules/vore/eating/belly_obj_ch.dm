@@ -17,10 +17,18 @@
 	var/liquid_overlay = TRUE						//Belly-specific liquid overlay toggle
 	var/max_liquid_level = 100						//Custom max level for liquid overlay
 	var/mush_overlay = FALSE						//Toggle for nutrition mush overlay
+	var/reagent_touches = TRUE						//If reagents touch and interact with things in belly
 	var/mush_color = "#664330"						//Nutrition mush overlay color
 	var/mush_alpha = 255							//Mush overlay transparency.
 	var/max_mush = 500								//How much nutrition for full mush overlay
 	var/min_mush = 0								//Manual setting for lowest mush level
+	var/item_mush_val = 0							//How much solid belly contents raise mush level per item
+	var/metabolism_overlay = FALSE					//Extra mush layer for ingested reagents currently in metabolism.
+	var/metabolism_mush_ratio = 15					//Metabolism reagent volume per unit compared to nutrition units.
+	var/max_ingested = 500							//How much metabolism content for full overlay.
+	var/ingested_color = "#664330"					//Normal color holder for ingested layer. Blended from existing reagent colors.
+	var/custom_ingested_color = null				//Custom color for ingested reagent layer.
+	var/custom_ingested_alpha = 255					//Custom alpha for ingested reagent layer if not using normal mush layer.
 
 	var/nutri_reagent_gen = FALSE					//if belly produces reagent over time using nutrition, needs to be optimized to use subsystem - Jack
 	var/list/generated_reagents = list("water" = 1) //Any number of reagents, the associated value is how many units are generated per process()
@@ -120,6 +128,11 @@
 	var/sound_volume = 100					// Volume knob.
 	var/speedy_mob_processing = FALSE		// Independent belly processing to utilize SSobj instead of SSbellies 3x speed.
 	var/cycle_sloshed = FALSE				// Has vorgan entrance made a wet slosh this cycle? Soundspam prevention for multiple items entered.
+	var/egg_cycles = 0						// Process egg mode after 10 cycles.
+	var/recycling = FALSE					// Recycling mode.
+	var/entrance_logs = TRUE				// Belly-specific entry message toggle.
+	var/noise_freq = 42500					// Tasty sound prefs.
+	var/item_digest_logs = FALSE			// Chat messages for digested items.
 
 /obj/belly/proc/GetFullnessFromBelly()
 	if(!affects_vore_sprites)
@@ -154,7 +167,7 @@
 			else if(I.w_class == ITEMSIZE_HUGE)
 				fullness_to_add = ITEMSIZE_COST_HUGE
 			else
-				fullness_to_add = ITEMSIZE_COST_NO_CONTAINER
+				fullness_to_add = I.w_class
 			fullness_to_add /= 32
 			belly_fullness += fullness_to_add * item_multiplier
 	belly_fullness *= size_factor_for_sprite
@@ -164,7 +177,7 @@
 ///////////////////// NUTRITION REAGENT PRODUCTION /////////////////
 
 /obj/belly/proc/HandleBellyReagents()
-	if(reagentbellymode && reagent_mode_flags & DM_FLAG_REAGENTSNUTRI && reagents.total_volume < custom_max_volume) //Removed if(reagentbellymode == TRUE) since that's less optimized
+	if(reagentbellymode && reagent_mode_flags & DM_FLAG_REAGENTSNUTRI && reagents.total_volume < custom_max_volume && !isnewplayer(owner)) //Removed if(reagentbellymode == TRUE) since that's less optimized
 		if(isrobot(owner))
 			var/mob/living/silicon/robot/R = owner
 			if(R.cell.charge >= gen_cost*10 && gen_interval >= gen_time)
@@ -178,16 +191,26 @@
 				gen_interval = 0
 			else
 				gen_interval++
-	if(reagents.total_volume && LAZYLEN(contents))
+
+/obj/belly/proc/HandleBellyReagentEffects(var/list/touchable_atoms)
+	if(LAZYLEN(contents))
+		if(reagent_touches && reagents.total_volume >= 5)
+			var/affecting_amt = reagents.total_volume / max(LAZYLEN(touchable_atoms), 1)
+			if(affecting_amt > 5)
+				affecting_amt = 5
+			if(affecting_amt >= 1)
+				for(var/mob/living/L in touchable_atoms)
+					if(L.digestable && digest_mode == DM_DIGEST)
+						if(reagents.total_volume)
+							reagents.trans_to(L, affecting_amt, 1, FALSE)
+				for(var/obj/item/I in touchable_atoms)
+					if(reagents.total_volume)
+						reagents.trans_to(I, affecting_amt, 1, FALSE)
 		SEND_SIGNAL(src, COMSIG_BELLY_UPDATE_VORE_FX, FALSE, reagents.total_volume) // Signals vore_fx() reagents updates.
 		for(var/mob/living/L in contents)
-			if(L.digestable && digest_mode == DM_DIGEST)
-				if(reagents.total_volume)
-					reagents.trans_to(L, reagents.total_volume, 0.1 / (LAZYLEN(contents) ? LAZYLEN(contents) : 1), FALSE)
 			vore_fx(L, FALSE, reagents.total_volume)
-		for(var/obj/item/I in contents)
-			if(reagents.total_volume)
-				reagents.trans_to(I, reagents.total_volume, 0.1 / (LAZYLEN(contents) ? LAZYLEN(contents) : 1), FALSE)
+	if(owner.previewing_belly == src)
+		vore_fx(owner, FALSE, reagents.total_volume)
 
 /obj/belly/proc/GenerateBellyReagents()
 	if(isrobot(owner))
@@ -207,8 +230,8 @@
 		for(var/reagent in generated_reagents)
 			reagents.add_reagent(reagent, generated_reagents[reagent] * digest_nutri_gain / gen_cost)
 	else
-		owner.adjust_nutrition((4.5 * digest_nutri_gain) * owner.get_digestion_efficiency_modifier())
-		digest_nutri_gain = 0
+		owner.adjust_nutrition(digest_nutri_gain * owner.get_digestion_efficiency_modifier())
+	digest_nutri_gain = 0
 
 /obj/belly/proc/GenerateBellyReagents_digested()
 	if(reagents.total_volume <= custom_max_volume - 25 * gen_amount)
@@ -217,6 +240,7 @@
 	else
 		for(var/reagent in generated_reagents)
 			reagents.add_reagent(reagent, generated_reagents[reagent] / gen_amount * (custom_max_volume - reagents.total_volume))
+	digest_nutri_gain = 0
 
 //////////////////////////// REAGENT_ABSORB ////////////////////////
 
@@ -484,6 +508,11 @@
 	for(var/A in contents)
 		if(isliving(A))
 			vore_fx(A,1)
+	if(owner.previewing_belly == src)
+		if(isbelly(owner.loc))
+			owner.previewing_belly = null
+			return
+		vore_fx(owner,1)
 
 /obj/belly/deserialize(var/list/data)
 	..()
@@ -493,3 +522,43 @@
 		START_PROCESSING(SSobj, src)
 	else
 		START_PROCESSING(SSbellies, src)
+
+/obj/item/debris_pack/digested
+	name = "digested material"
+	desc = "Some thoroughly digested mass of ... something. Might be useful for recycling."
+	icon = 'icons/obj/recycling.dmi'
+	icon_state = "matdust"
+	color = "#664330"
+	w_class = ITEMSIZE_SMALL
+
+/obj/belly/proc/recycle(var/obj/item/O)
+	if(!recycling || (!LAZYLEN(O.matter) && !istype(O, /obj/item/weapon/ore)))
+		return FALSE
+	if(istype(O, /obj/item/weapon/ore))
+		var/obj/item/weapon/ore/ore = O
+		for(var/obj/item/ore_chunk/C in contents)
+			if(istype(C))
+				C.stored_ore[ore.material]++
+				return TRUE
+		var/obj/item/ore_chunk/newchunk = new /obj/item/ore_chunk(src)
+		newchunk.stored_ore[ore.material]++
+		return TRUE
+	else
+		var/list/modified_mats = list()
+		var/trash = 1
+		if(istype(O,/obj/item/trash))
+			trash = 5
+		if(istype(O,/obj/item/stack))
+			var/obj/item/stack/S = O
+			trash = S.amount
+		for(var/mat in O.matter)
+			modified_mats[mat] = O.matter[mat] * trash
+		for(var/obj/item/debris_pack/digested/D in contents)
+			if(istype(D))
+				for(var/mat in modified_mats)
+					D.matter[mat] += modified_mats[mat]
+				if(O.w_class > D.w_class)
+					D.w_class = O.w_class
+				return TRUE
+		new /obj/item/debris_pack/digested(src, modified_mats)
+	return TRUE

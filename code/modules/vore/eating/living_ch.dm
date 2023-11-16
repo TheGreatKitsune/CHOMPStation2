@@ -1,8 +1,6 @@
 ///////////////////// Mob Living /////////////////////
 /mob/living
 	var/list/vore_organs_reagents = list()	//Reagent datums in vore bellies in a mob
-	var/receive_reagents = FALSE			//Pref for people to avoid others transfering reagents into them.
-	var/give_reagents = FALSE				//Pref for people to avoid others taking reagents from them.
 	var/vore_footstep_volume = 0			//Variable volume for a mob, updated every 5 steps where a footstep hasnt occurred.
 	var/vore_footstep_chance = 0
 	var/vore_footstep_volume_cooldown = 0	//goes up each time a step isnt heard, and will proc update of list of viable bellies to determine the most filled and loudest one to base audio on.
@@ -12,20 +10,19 @@
 	var/liquidbelly_visuals = TRUE			//Toggle for liquidbelly level visuals.
 
 	// CHOMP vore icons refactor (Now on living)
-	var/vore_capacity = 0				// Maximum capacity, -1 for unlimited
-	var/vore_capacity_ex = list("stomach" = 0) //expanded list of capacities
-	var/vore_fullness = 0				// How "full" the belly is (controls icons)
-	var/list/vore_fullness_ex = list("stomach" = 0) // Expanded list of fullness
 	var/vore_icons = 0					// Bitfield for which fields we have vore icons for.
 	var/vore_eyes = FALSE				// For mobs with fullness specific eye overlays.
-	var/vore_sprite_multiply = list("stomach" = FALSE, "taur belly" = FALSE)
-	var/vore_sprite_color = list("stomach" = "#000", "taur belly" = "#000")
-
-	var/list/vore_icon_bellies = list("stomach")
-
 
 // Update fullness based on size & quantity of belly contents
-/mob/living/proc/update_fullness()
+/mob/proc/update_fullness(var/returning = FALSE)
+	if(!returning)
+		if(updating_fullness)
+			return
+		updating_fullness = TRUE
+		spawn(2)
+		updating_fullness = FALSE
+		src.update_fullness(TRUE)
+		return
 	var/list/new_fullness = list()
 	vore_fullness = 0
 	for(var/belly_class in vore_icon_bellies)
@@ -41,12 +38,14 @@
 			new_fullness[B.undergarment_chosen + "-color"] = B.undergarment_color
 	for(var/belly_class in vore_icon_bellies)
 		new_fullness[belly_class] /= size_multiplier //Divided by pred's size so a macro mob won't get macro belly from a regular prey.
+		new_fullness[belly_class] *= belly_size_multiplier // Some mobs are small even at 100% size. Let's account for that.
 		new_fullness[belly_class] = round(new_fullness[belly_class], 1) // Because intervals of 0.25 are going to make sprite artists cry.
 		vore_fullness_ex[belly_class] = min(vore_capacity_ex[belly_class], new_fullness[belly_class])
 		vore_fullness += new_fullness[belly_class]
 	if(vore_fullness < 0)
 		vore_fullness = 0
 	vore_fullness = min(vore_capacity, vore_fullness)
+	updating_fullness = FALSE
 	return new_fullness
 
 
@@ -341,3 +340,9 @@
 		clear_fullscreen("belly")
 		clear_fullscreen(ATOM_BELLY_FULLSCREEN)
 		stop_sound_channel(CHANNEL_PREYLOOP)
+
+/mob/living/verb/vore_check_nutrition()
+	set name = "Check Nutrition"
+	set category = "Abilities"
+	set desc = "Check your current nutrition level."
+	to_chat(src, "<span class='notice'>Current nutrition level: [nutrition].</span>")

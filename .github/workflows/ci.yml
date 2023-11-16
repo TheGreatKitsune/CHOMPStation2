@@ -12,7 +12,7 @@ jobs:
     name: Run Linters
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Ensure +x on CI directory
         run: |
           chmod -R +x ./tools/ci
@@ -32,13 +32,14 @@ jobs:
       - name: Run Tests
         run: |
           tools/ci/validate_files.sh
-          tools/ci/build_tgui.sh
+      - name: Run TGUI Checks
+        run: tools/build/build --ci lint tgui-test
 
   dreamchecker:
     name: DreamChecker
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Cache SpacemanDMM
         uses: actions/cache@v3
@@ -67,7 +68,7 @@ jobs:
     # needs: ['file_tests', 'dreamchecker']
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Ensure +x on CI directory
         run: |
           chmod -R +x ./tools/ci

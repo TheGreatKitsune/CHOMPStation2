@@ -665,7 +665,7 @@ const VoreSelectedBellyOptions = (props, context) => {
   const { act, data } = useBackend(context);
 
   const { host_mobtype } = data;
-  const { is_dogborg, is_vore_simple_mob } = host_mobtype;
+  const { is_cyborg, is_vore_simple_mob } = host_mobtype;
   const { belly } = props;
   const {
     can_taste,
@@ -690,10 +690,9 @@ const VoreSelectedBellyOptions = (props, context) => {
     save_digest_mode,
     eating_privacy_local,
     silicon_belly_overlay_preference,
-    visible_belly_minimum_prey,
-    overlay_min_prey_size,
-    override_min_prey_size,
-    override_min_prey_num,
+    belly_mob_mult,
+    belly_item_mult,
+    belly_overall_mult,
     vorespawn_blacklist,
   } = belly;
 
@@ -901,19 +900,18 @@ const VoreSelectedBellyOptions = (props, context) => {
 const VoreSelectedMobTypeBellyButtons = (props, context) => {
   const { act, data } = useBackend(context);
   const { host_mobtype } = data;
-  const { is_dogborg, is_vore_simple_mob } = host_mobtype;
+  const { is_cyborg, is_vore_simple_mob } = host_mobtype;
   const { belly } = props;
   const {
     silicon_belly_overlay_preference,
-    visible_belly_minimum_prey,
-    overlay_min_prey_size,
-    override_min_prey_size,
-    override_min_prey_num,
+    belly_mob_mult,
+    belly_item_mult,
+    belly_overall_mult,
   } = belly;
 
-  if (is_dogborg) {
+  if (is_cyborg) {
     return (
-      <Section title={'Dogborg Controls'} width={'80%'}>
+      <Section title={'Cyborg Controls'} width={'80%'}>
         <LabeledList>
           <LabeledList.Item label="Toggle Belly Overlay Mode">
             <Button
@@ -923,44 +921,30 @@ const VoreSelectedMobTypeBellyButtons = (props, context) => {
               content={capitalize(silicon_belly_overlay_preference)}
             />
           </LabeledList.Item>
-          <LabeledList.Item label="Minimum Prey num for VoreBelly">
+          <LabeledList.Item label="Mob Vorebelly Size Mult">
+            <Button
+              onClick={() =>
+                act('set_attribute', { attribute: 'b_belly_mob_mult' })
+              }
+              content={belly_mob_mult}
+            />
+          </LabeledList.Item>
+          <LabeledList.Item label="Item Vorebelly Size Mult">
+            <Button
+              onClick={() =>
+                act('set_attribute', { attribute: 'b_belly_item_multi' })
+              }
+              content={belly_item_mult}
+            />
+          </LabeledList.Item>
+          <LabeledList.Item label="Belly Size Multiplier">
             <Button
               onClick={() =>
                 act('set_attribute', {
-                  attribute: 'b_min_belly_number_flat',
+                  attribute: 'b_belly_overall_mult',
                 })
               }
-              content={visible_belly_minimum_prey}
-            />
-          </LabeledList.Item>
-          <LabeledList.Item label="Minimum Prey Size for Vorebelly">
-            <Button
-              onClick={() =>
-                act('set_attribute', { attribute: 'b_min_belly_prey_size' })
-              }
-              content={overlay_min_prey_size * 100 + '%'}
-            />
-          </LabeledList.Item>
-          <LabeledList.Item label="Toggle Number Override">
-            <Button
-              onClick={() =>
-                act('set_attribute', {
-                  attribute: 'b_override_min_belly_prey_size',
-                })
-              }
-              icon={override_min_prey_size ? 'toggle-on' : 'toggle-off'}
-              selected={override_min_prey_size}
-              content={override_min_prey_size ? 'On' : 'Off'}
-            />
-          </LabeledList.Item>
-          <LabeledList.Item label="Minimum Prey Number Override">
-            <Button
-              onClick={() =>
-                act('set_attribute', {
-                  attribute: 'b_min_belly_number_override',
-                })
-              }
-              content={override_min_prey_num}
+              content={belly_overall_mult}
             />
           </LabeledList.Item>
         </LabeledList>
@@ -2009,6 +1993,7 @@ const VoreUserPreferences = (props, context) => {
     stumble_vore,
     slip_vore,
     throw_vore,
+    food_vore,
     nutrition_message_visible,
     weight_message_visible,
     eating_privacy_global,
@@ -2187,6 +2172,21 @@ const VoreUserPreferences = (props, context) => {
       content: {
         enabled: 'Throw Vore Enabled',
         disabled: 'Throw Vore Disabled',
+      },
+    },
+    toggle_food_vore: {
+      action: 'toggle_food_vore',
+      test: food_vore,
+      tooltip: {
+        main:
+          'Allows for food related spontaneous vore to occur. ' +
+          ' Note, you still need spontaneous vore pred and/or prey enabled.',
+        enable: 'Click here to allow for food vore.',
+        disable: 'Click here to disable food vore.',
+      },
+      content: {
+        enabled: 'Food Vore Enabled',
+        disabled: 'Food Vore Disabled',
       },
     },
     spawnbelly: {
@@ -2472,6 +2472,9 @@ const VoreUserPreferences = (props, context) => {
           <VoreUserPreferenceItem spec={preferences.toggle_throw_vore} />
         </Flex.Item>
         <Flex.Item basis="32%">
+          <VoreUserPreferenceItem spec={preferences.toggle_food_vore} />
+        </Flex.Item>
+        <Flex.Item basis="32%" grow={1}>
           <VoreUserPreferenceItem spec={preferences.spawnbelly} />
         </Flex.Item>
         <Flex.Item basis="32%" grow={1}>
@@ -2492,7 +2495,7 @@ const VoreUserPreferences = (props, context) => {
             tooltipPosition="top"
           />
         </Flex.Item>
-        <Flex.Item basis="32%" grow={1}>
+        <Flex.Item basis="32%">
           <VoreUserPreferenceItem
             spec={preferences.vore_fx}
             tooltipPosition="top"
@@ -2504,13 +2507,13 @@ const VoreUserPreferences = (props, context) => {
             tooltipPosition="top"
           />
         </Flex.Item>
-        <Flex.Item basis="32%">
+        <Flex.Item basis="32%" grow={1}>
           <VoreUserPreferenceItem
             spec={preferences.pickuppref}
             tooltipPosition="top"
           />
         </Flex.Item>
-        <Flex.Item basis="32%" grow={1}>
+        <Flex.Item basis="32%">
           <VoreUserPreferenceItem spec={preferences.spontaneous_tf} />
         </Flex.Item>
         <Flex.Item basis="32%">

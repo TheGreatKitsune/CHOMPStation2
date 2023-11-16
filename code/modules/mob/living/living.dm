@@ -717,7 +717,8 @@
 	//VOREStation Edit Start - Making it so SSD people have prefs with fallback to original style.
 	if(config.allow_Metadata)
 		if(ooc_notes)
-			to_chat(usr, "<span class='filter_notice'>[src]'s Metainfo:<br>[ooc_notes]</span>")
+			ooc_notes_window(usr)
+//			to_chat(usr, "<span class='filter_notice'>[src]'s Metainfo:<br>[ooc_notes]</span>")
 		else if(client)
 			to_chat(usr, "<span class='filter_notice'>[src]'s Metainfo:<br>[client.prefs.metadata]</span>")
 		else
@@ -1034,17 +1035,17 @@
 		if(!isnull(M.icon_scale_y_percent))
 			. *= M.icon_scale_y_percent
 
-/mob/living/update_transform()
+/mob/living/update_transform(var/instant = FALSE) //CHOMPEdit
 	// First, get the correct size.
 	var/desired_scale_x = size_multiplier * icon_scale_x //VOREStation edit
 	var/desired_scale_y = size_multiplier * icon_scale_y //VOREStation edit
-
+	var/cent_offset = center_offset //CHOMPEdit
 	// Now for the regular stuff.
-	if(offset_override) //CHOMPEdit
-		center_offset = 0 //CHOMPEdit
+	if(fuzzy || offset_override || dir == EAST || dir == WEST) //CHOMPEdit
+		cent_offset = 0 //CHOMPEdit
 	var/matrix/M = matrix()
 	M.Scale(desired_scale_x, desired_scale_y)
-	M.Translate(center_offset * desired_scale_x, (vis_height/2)*(desired_scale_y-1)) //CHOMPEdit
+	M.Translate(cent_offset * desired_scale_x, (vis_height/2)*(desired_scale_y-1)) //CHOMPEdit
 	src.transform = M //VOREStation edit
 	handle_status_indicators()
 

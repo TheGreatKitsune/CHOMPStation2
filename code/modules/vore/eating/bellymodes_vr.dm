@@ -16,13 +16,13 @@
 		return
 
 	//CHOMPEdit Start: Autotransfer count moved here.
-	if(!owner.client || autotransfer_enabled)
+	if(autotransfer_enabled)
 		var/list/autotransferables = list()
 		for(var/atom/movable/M in contents)
 			if(!M || !M.autotransferable) continue
-			if(isliving(M))
-				var/mob/living/L = M
-				if(L.absorbed) continue
+			// If the prey can't pass the filter of at least one transfer location, skip it
+			if(ismob(M) && !(autotransfer_filter(M, autotransfer_secondary_whitelist, autotransfer_secondary_blacklist) || autotransfer_filter(M, autotransfer_whitelist, autotransfer_blacklist))) continue
+			if(isitem(M) && !(autotransfer_filter(M, autotransfer_secondary_whitelist_items, autotransfer_secondary_blacklist_items) || autotransfer_filter(M, autotransfer_whitelist_items, autotransfer_blacklist_items))) continue
 			M.belly_cycles++
 			if(M.belly_cycles < autotransferwait / 60) continue
 			autotransferables += M
@@ -38,9 +38,17 @@
 	SEND_SIGNAL(src, COMSIG_BELLY_UPDATE_PREY_LOOP) // CHOMPedit: signals listening atoms to update prey_loop. May be cancelled by early exit otherwise.
 
 /////////////////////////// Exit Early ////////////////////////////
-	var/list/touchable_atoms = contents - items_preserved
+	var/list/touchable_atoms = contents - items_preserved //CHOMPEdit Start
 	for(var/mob/observer/G in touchable_atoms) //CHOMPEdit: don't bother trying to process ghosts.
 		touchable_atoms -= G
+	var/datum/digest_mode/DM = GLOB.digest_modes["[digest_mode]"]
+	if(!DM)
+		log_debug("Digest mode [digest_mode] didn't exist in the digest_modes list!!")
+		return FALSE
+	if(digest_mode == DM_EGG)
+		if(DM.handle_atoms(src, contents))
+			updateVRPanels()
+		return
 	if(!length(touchable_atoms))
 		return
 
@@ -57,11 +65,7 @@
 
 ///////////////////// Early Non-Mode Handling /////////////////////
 
-	var/datum/digest_mode/DM = GLOB.digest_modes["[digest_mode]"]
-	if(!DM)
-		log_debug("Digest mode [digest_mode] didn't exist in the digest_modes list!!")
-		return FALSE
-	if(DM.handle_atoms(src, touchable_atoms))
+	if(DM.handle_atoms(src, touchable_atoms)) //CHOMPEdit End
 		updateVRPanels()
 		return
 
@@ -79,6 +83,9 @@
 	if(!digestion_noise_chance)
 		digestion_noise_chance = DM.noise_chance
 
+	touchable_atoms -= items_preserved //CHOMPAdd
+	HandleBellyReagentEffects(touchable_atoms) //CHOMPAdd
+
 /////////////////////////// Make any noise ///////////////////////////
 	if(digestion_noise_chance && prob(digestion_noise_chance))
 		for(var/mob/M in contents)
@@ -95,9 +102,9 @@
 					continue
 				if(isturf(M.loc) || (M.loc != src)) //to avoid people on the inside getting the outside sounds and their direct sounds + built in sound pref check
 					if(fancy_vore)
-						M.playsound_local(get_turf(owner), play_sound, vol = sound_volume, vary = 1, falloff = VORE_SOUND_FALLOFF) //CHOMPEdit
+						M.playsound_local(get_turf(owner), play_sound, vol = sound_volume, vary = 1, falloff = VORE_SOUND_FALLOFF, frequency = noise_freq) //CHOMPEdit
 					else
-						M.playsound_local(get_turf(owner), play_sound, vol = sound_volume, vary = 1, falloff = VORE_SOUND_FALLOFF) //CHOMPEdit
+						M.playsound_local(get_turf(owner), play_sound, vol = sound_volume, vary = 1, falloff = VORE_SOUND_FALLOFF, frequency = noise_freq) //CHOMPEdit
 					 //these are all external sound triggers now, so it's ok.
 		return
 
@@ -122,9 +129,9 @@
 				continue
 			if(isturf(M.loc) || (M.loc != src)) //to avoid people on the inside getting the outside sounds and their direct sounds + built in sound pref check
 				if(fancy_vore)
-					M.playsound_local(get_turf(owner), play_sound, vol = sound_volume, vary = 1, falloff = VORE_SOUND_FALLOFF) //CHOMPEdit
+					M.playsound_local(get_turf(owner), play_sound, vol = sound_volume, vary = 1, falloff = VORE_SOUND_FALLOFF, frequency = noise_freq) //CHOMPEdit
 				else
-					M.playsound_local(get_turf(owner), play_sound, vol = sound_volume, vary = 1, falloff = VORE_SOUND_FALLOFF) //CHOMPEdit
+					M.playsound_local(get_turf(owner), play_sound, vol = sound_volume, vary = 1, falloff = VORE_SOUND_FALLOFF, frequency = noise_freq) //CHOMPEdit
 				 //these are all external sound triggers now, so it's ok.
 
 	if(emote_active)
@@ -268,7 +275,7 @@
 		if(isbelly(M.loc) && is_wet && wet_loop && (world.time > M.next_preyloop))
 			M.stop_sound_channel(CHANNEL_PREYLOOP)
 			var/sound/preyloop = sound('sound/vore/sunesound/prey/loop.ogg')
-			M.playsound_local(get_turf(src), preyloop, 80, 0, channel = CHANNEL_PREYLOOP)
+			M.playsound_local(get_turf(src), preyloop, 80, 0, channel = CHANNEL_PREYLOOP, frequency = noise_freq) //CHOMPEdit
 			M.next_preyloop = (world.time + (52 SECONDS))
 
 /obj/belly/proc/handle_digesting_item(obj/item/I, touchable_amount) //CHOMPEdit
@@ -355,21 +362,20 @@
 	if((mode_flags & DM_FLAG_LEAVEREMAINS) && M.digest_leave_remains)
 		handle_remains_leaving(M)
 	digestion_death(M)
-	//if(!ishuman(owner)) CHOMPremoval. Bad.
+	//if(!ishuman(owner)) CHOMPEdit Start
 	//	owner.update_icons()
-	if(isrobot(owner))
+	/*if(isrobot(owner))
 		var/mob/living/silicon/robot/R = owner
 		if(reagent_mode_flags & DM_FLAG_REAGENTSDIGEST && reagents.total_volume < reagents.maximum_volume) //CHOMPedit: digestion producing reagents
 			R.cell.charge += (nutrition_percent / 100) * compensation * 15 * personal_nutrition_modifier
 			GenerateBellyReagents_digested()
 		else
-			R.cell.charge += (nutrition_percent / 100) * compensation * 25 * personal_nutrition_modifier
+			R.cell.charge += (nutrition_percent / 100) * compensation * 25 * personal_nutrition_modifier*/
+	if(reagent_mode_flags & DM_FLAG_REAGENTSDIGEST && reagents.total_volume < reagents.maximum_volume) //CHOMP digestion producing reagents
+		owner.adjust_nutrition((nutrition_percent / 100) * compensation * 3 * personal_nutrition_modifier)
+		GenerateBellyReagents_digested()
 	else
-		if(reagent_mode_flags & DM_FLAG_REAGENTSDIGEST && reagents.total_volume < reagents.maximum_volume) //CHOMP digestion producing reagents
-			owner.adjust_nutrition((nutrition_percent / 100) * compensation * 3 * personal_nutrition_modifier)
-			GenerateBellyReagents_digested()
-		else
-			owner.adjust_nutrition((nutrition_percent / 100) * compensation * 4.5 * personal_nutrition_modifier * pred_digestion_efficiency) //CHOMPedit end
+		owner.adjust_nutrition((nutrition_percent / 100) * compensation * 4.5 * personal_nutrition_modifier * pred_digestion_efficiency) //CHOMPedit end
 
 /obj/belly/proc/steal_nutrition(mob/living/L)
 	if(L.nutrition >= 100)
